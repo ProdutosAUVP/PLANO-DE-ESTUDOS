@@ -19,21 +19,33 @@ back-end, banco de dados nem login.
 - **Dias de estudo configuráveis** — escolha quais dias da semana você estuda.
 - **Recálculo automático de atrasos** — aulas não concluídas em dias passados
   são reagendadas para os próximos dias de estudo.
+- **Painel do aluno** — anel de progresso animado, jornada por módulos,
+  sequência de dias de estudo (streak) e gráfico de atividade semanal.
+- **Tema claro e escuro** com persistência da preferência.
 - **Persistência local** — seu progresso permanece salvo entre visitas, no
   próprio navegador.
 
+## 🎨 Design
+
+A identidade visual segue o
+[AUVP Design System](https://produtosauvp.github.io/central/design-system),
+tema **Escola (dourado)**: tokens de cor HSL oficiais (claro e escuro),
+tipografia Anek Latin / Roboto / Sora (exclusiva para botões) e motion padrão
+de 240ms. As convenções completas estão documentadas em
+[`CLAUDE.md`](CLAUDE.md).
+
 ## 🧱 Stack
 
-| Camada        | Tecnologia                                             |
-| ------------- | ------------------------------------------------------ |
-| Build / dev   | [Vite](https://vitejs.dev/)                            |
-| UI            | [React 19](https://react.dev/)                         |
-| Roteamento    | [TanStack Router](https://tanstack.com/router)         |
-| Estado async  | [TanStack Query](https://tanstack.com/query)           |
-| Estilo        | [Tailwind CSS v4](https://tailwindcss.com/)            |
-| Componentes   | [shadcn/ui](https://ui.shadcn.com/) + Radix UI         |
-| Ícones        | [lucide-react](https://lucide.dev/)                    |
-| Linguagem     | TypeScript                                             |
+| Camada       | Tecnologia                                     |
+| ------------ | ---------------------------------------------- |
+| Build / dev  | [Vite](https://vitejs.dev/)                    |
+| UI           | [React 19](https://react.dev/)                 |
+| Roteamento   | [TanStack Router](https://tanstack.com/router) |
+| Estado async | [TanStack Query](https://tanstack.com/query)   |
+| Estilo       | [Tailwind CSS v4](https://tailwindcss.com/)    |
+| Componentes  | [shadcn/ui](https://ui.shadcn.com/) + Radix UI |
+| Ícones       | [lucide-react](https://lucide.dev/)            |
+| Linguagem    | TypeScript                                     |
 
 > A aplicação é uma **SPA 100% estática** (client-side). Foi originalmente
 > exportada do Lovable como um app TanStack Start (SSR/Cloudflare) e convertida
@@ -62,13 +74,13 @@ Com npm, basta trocar `bun run` por `npm run` (e `bun install` por
 
 ### Scripts disponíveis
 
-| Script            | Descrição                                    |
-| ----------------- | -------------------------------------------- |
-| `bun run dev`     | Servidor de desenvolvimento com HMR          |
-| `bun run build`   | Build de produção estático em `dist/`        |
-| `bun run preview` | Serve o build de produção localmente         |
-| `bun run lint`    | Verifica o código com ESLint + Prettier      |
-| `bun run format`  | Formata o código com Prettier                |
+| Script            | Descrição                               |
+| ----------------- | --------------------------------------- |
+| `bun run dev`     | Servidor de desenvolvimento com HMR     |
+| `bun run build`   | Build de produção estático em `dist/`   |
+| `bun run preview` | Serve o build de produção localmente    |
+| `bun run lint`    | Verifica o código com ESLint + Prettier |
+| `bun run format`  | Formata o código com Prettier           |
 
 ## 📦 Deploy no GitHub Pages
 

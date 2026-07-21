@@ -4,20 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* AUVP Design System — fontes oficiais carregadas via <link> em index.html */
+/* Fontes oficiais AUVP (Anek Latin, Roboto, Sora) carregadas via <link> em index.html */
 
 /*
- * Design system definition.
+ * AUVP Design System — tema "Escola" (Dourado)
+ * Fonte: https://produtosauvp.github.io/central/design-system
  *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
+ * Todos os valores de cor são HSL, copiados dos tokens oficiais do DS
+ * (repositório central, src/index.css — bloco `.escola` e `.dark.escola`).
  *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
+ * O bloco @theme inline mapeia as variáveis para utilitários Tailwind
+ * (ex.: --color-primary -> bg-primary, text-primary).
  *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Regras do DS que este app segue:
+ * - Anek Latin em títulos, Roboto no corpo, Sora EXCLUSIVA para botões.
+ * - Motion padrão 240ms ease; 320ms para cards translúcidos/destaques.
+ * - `*-emphasis`: variante da cor segura como TEXTO sobre --background
+ *   (o dourado puro tem contraste insuficiente sobre branco).
  */
 
 @theme inline {
@@ -36,6 +39,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-emphasis: var(--primary-emphasis);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -44,10 +48,18 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -67,96 +79,113 @@
 }
 
 :root {
-  /* AUVP Capital — modo claro (#023620 primary) */
+  /* === AUVP Escola — modo claro (dourado) === */
   --radius: 0.75rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0 0 0);
-  --primary: oklch(0.27 0.06 155); /* #023620 */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.34 0.05 160); /* #154736 */
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.96 0.005 145); /* #F1F4F1 */
-  --muted-foreground: oklch(0.35 0 0); /* #404040 */
-  --accent: oklch(0.78 0.16 75); /* #F6A823 — Escola */
-  --accent-foreground: oklch(0.18 0.02 160);
-  --destructive: oklch(0.62 0.21 25); /* #EF4343 */
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.91 0.01 145); /* #DDE3DD */
-  --input: oklch(0.91 0.01 145);
-  --ring: oklch(0.27 0.06 155);
-  --success: oklch(0.5 0.12 155);
-  --warning: oklch(0.78 0.16 75);
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(220 15% 15%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 15% 15%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(220 15% 15%);
+  --primary: hsl(42 84% 63%); /* Dourado AUVP Escola */
+  --primary-foreground: hsl(220 15% 15%);
+  --primary-emphasis: hsl(40 90% 29%); /* dourado seguro como texto (≥4.5:1) */
+  --secondary: hsl(40 64% 54%);
+  --secondary-foreground: hsl(220 15% 15%);
+  --muted: hsl(40 30% 95%);
+  --muted-foreground: hsl(40 15% 40%);
+  --accent: hsl(42 83% 62%);
+  --accent-foreground: hsl(220 15% 15%);
+  --destructive: hsl(0 78% 52%);
+  --destructive-foreground: hsl(0 0% 100%);
+  /* Status semânticos Escola — success em âmbar, não verde */
+  --success: hsl(36 90% 32%);
+  --success-foreground: hsl(0 0% 100%);
+  --warning: hsl(35 95% 42%);
+  --warning-foreground: hsl(220 15% 15%);
+  --info: hsl(205 85% 38%);
+  --info-foreground: hsl(0 0% 100%);
+  --border: hsl(42 30% 87%);
+  --input: hsl(42 30% 87%);
+  --ring: hsl(42 84% 63%);
+  /* Brand */
+  --brand: hsl(42 84% 63%);
+  --brand-foreground: hsl(220 15% 15%);
+  --brand-hover: hsl(40 64% 54%);
   --gradient-primary: linear-gradient(
     135deg,
-    oklch(0.27 0.06 155),
-    oklch(0.34 0.05 160)
+    hsl(38 100% 79%),
+    hsl(42 100% 33%)
   );
-  --gradient-accent: linear-gradient(
-    135deg,
-    oklch(0.78 0.16 75),
-    oklch(0.72 0.17 65)
-  );
-  --shadow-glow: 0 10px 40px -10px oklch(0.27 0.06 155 / 0.18);
-  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.04);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --spotlight: hsl(42 84% 63% / 0.09);
+  --shadow-glow: 0 10px 40px -10px hsl(42 84% 63% / 0.35);
+  --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.04), 0 4px 12px hsl(0 0% 0% / 0.04);
+  --shadow-lift: 0 8px 24px hsl(0 0% 0% / 0.06);
+  /* Data viz (Escola) */
+  --chart-1: hsl(42 84% 55%); /* Dourado */
+  --chart-2: hsl(15 75% 55%); /* Telha */
+  --chart-3: hsl(200 75% 45%); /* Azul ardósia */
+  --chart-4: hsl(350 70% 55%); /* Coral rosado */
+  --chart-5: hsl(160 55% 40%); /* Verde sálvia */
+  --sidebar: hsl(42 100% 33%);
+  --sidebar-foreground: hsl(0 0% 95%);
+  --sidebar-primary: hsl(42 84% 63%);
+  --sidebar-primary-foreground: hsl(220 15% 15%);
+  --sidebar-accent: hsl(42 70% 45%);
+  --sidebar-accent-foreground: hsl(0 0% 100%);
+  --sidebar-border: hsl(42 50% 28%);
+  --sidebar-ring: hsl(42 84% 63%);
 }
 
 .dark {
-  /* AUVP — modo escuro: preto/branco com verde de acento #5A8770 */
-  --background: oklch(0 0 0);
-  --foreground: oklch(1 0 0);
-  --card: oklch(0.18 0 0); /* #1B1B1B */
-  --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.18 0 0);
-  --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.55 0.06 150); /* #5A8770 */
-  --primary-foreground: oklch(0 0 0);
-  --secondary: oklch(0.22 0 0);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.78 0 0); /* #BFBFBF */
-  --accent: oklch(0.78 0.16 75); /* Escola yellow */
-  --accent-foreground: oklch(0 0 0);
-  --destructive: oklch(0.62 0.21 25);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.55 0.06 150);
-  --gradient-primary: linear-gradient(
-    135deg,
-    oklch(0.55 0.06 150),
-    oklch(0.45 0.06 155)
-  );
-  --shadow-glow: 0 10px 40px -10px oklch(0.55 0.06 150 / 0.4);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* === AUVP Escola — modo escuro (fundo preto) === */
+  --background: hsl(0 0% 0%);
+  --foreground: hsl(45 25% 96%);
+  --card: hsl(0 0% 6%);
+  --card-foreground: hsl(45 25% 96%);
+  --popover: hsl(0 0% 8%);
+  --popover-foreground: hsl(45 25% 96%);
+  --primary: hsl(42 90% 65%);
+  --primary-foreground: hsl(0 0% 8%);
+  --primary-emphasis: hsl(42 90% 65%);
+  --secondary: hsl(0 0% 12%);
+  --secondary-foreground: hsl(45 25% 96%);
+  --muted: hsl(0 0% 10%);
+  --muted-foreground: hsl(40 10% 70%);
+  --accent: hsl(42 90% 65%);
+  --accent-foreground: hsl(0 0% 8%);
+  --destructive: hsl(0 80% 63%);
+  --destructive-foreground: hsl(0 0% 5%);
+  --success: hsl(38 80% 55%);
+  --success-foreground: hsl(0 0% 8%);
+  --warning: hsl(38 95% 60%);
+  --warning-foreground: hsl(0 0% 5%);
+  --info: hsl(210 90% 65%);
+  --info-foreground: hsl(0 0% 5%);
+  --border: hsl(42 30% 20%);
+  --input: hsl(42 25% 17%);
+  --ring: hsl(42 90% 65%);
+  --brand: hsl(42 90% 65%);
+  --brand-foreground: hsl(0 0% 8%);
+  --brand-hover: hsl(42 95% 75%);
+  --gradient-primary: linear-gradient(135deg, hsl(42 84% 55%), hsl(38 80% 25%));
+  --spotlight: hsl(42 90% 65% / 0.07);
+  --shadow-glow: 0 10px 40px -10px hsl(42 90% 65% / 0.4);
+  --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4), 0 4px 12px hsl(0 0% 0% / 0.4);
+  --shadow-lift: 0 8px 24px hsl(0 0% 0% / 0.5);
+  --chart-1: hsl(42 84% 65%);
+  --chart-2: hsl(15 80% 65%);
+  --chart-3: hsl(200 80% 60%);
+  --chart-4: hsl(350 75% 65%);
+  --chart-5: hsl(160 55% 55%);
+  --sidebar: hsl(0 0% 3%);
+  --sidebar-foreground: hsl(45 25% 92%);
+  --sidebar-primary: hsl(42 90% 65%);
+  --sidebar-primary-foreground: hsl(0 0% 8%);
+  --sidebar-accent: hsl(0 0% 10%);
+  --sidebar-accent-foreground: hsl(45 25% 96%);
+  --sidebar-border: hsl(40 10% 18%);
+  --sidebar-ring: hsl(42 90% 65%);
 }
 
 @layer base {
@@ -179,4 +208,23 @@
     font-family: var(--font-display);
     letter-spacing: -0.01em;
   }
+}
+
+@utility bg-brand-gradient {
+  background: var(--gradient-primary);
+}
+
+@utility bg-spotlight {
+  background:
+    radial-gradient(56rem 28rem at 85% -10%, var(--spotlight), transparent 60%),
+    radial-gradient(40rem 20rem at -10% 110%, var(--spotlight), transparent 55%);
+}
+
+/* Botão AUVP — Sora Bold, caixa alta (a Sora é exclusiva para botões) */
+@utility btn-cta {
+  font-family: var(--font-cta);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }

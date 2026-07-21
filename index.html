@@ -18,9 +18,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Sora:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Sora:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      // Aplica o tema salvo antes do primeiro paint para evitar flash.
+      (function () {
+        try {
+          var t = localStorage.getItem("auvp-theme-v1");
+          if (
+            t === "dark" ||
+            (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+          ) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

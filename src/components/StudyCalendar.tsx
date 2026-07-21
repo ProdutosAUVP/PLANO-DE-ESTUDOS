@@ -77,7 +77,7 @@ export function StudyCalendar({
   if (!endDateISO) {
     return (
       <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
-        <h2 className="text-xl font-bold text-foreground">
+        <h2 className="font-display text-xl font-bold text-foreground">
           Calendário de estudos
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -92,10 +92,10 @@ export function StudyCalendar({
     <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+          <p className="text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
             Calendário
           </p>
-          <h2 className="mt-1 text-2xl font-bold text-foreground">
+          <h2 className="font-display mt-1 text-2xl font-bold text-foreground">
             Suas aulas, dia a dia
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
@@ -107,18 +107,18 @@ export function StudyCalendar({
           <button
             type="button"
             onClick={() => setCursor(new Date(year, month - 1, 1))}
-            className="rounded-full border border-border p-2 text-foreground transition-colors hover:bg-muted"
+            className="rounded-full border border-border p-2 text-foreground transition-all duration-[240ms] ease-out hover:bg-muted active:scale-90"
             aria-label="Mês anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <div className="min-w-[10rem] text-center text-sm font-semibold text-foreground">
+          <div className="font-display min-w-[10rem] text-center text-sm font-bold text-foreground">
             {MONTHS[month]} {year}
           </div>
           <button
             type="button"
             onClick={() => setCursor(new Date(year, month + 1, 1))}
-            className="rounded-full border border-border p-2 text-foreground transition-colors hover:bg-muted"
+            className="rounded-full border border-border p-2 text-foreground transition-all duration-[240ms] ease-out hover:bg-muted active:scale-90"
             aria-label="Próximo mês"
           >
             <ChevronRight className="h-4 w-4" />
@@ -127,7 +127,7 @@ export function StudyCalendar({
       </header>
 
       {isLate && (
-        <div className="mt-5 flex flex-wrap items-start gap-3 rounded-xl border border-destructive/40 bg-destructive/10 p-4">
+        <div className="animate-in fade-in slide-in-from-top-1 mt-5 flex flex-wrap items-start gap-3 rounded-xl border border-destructive/40 bg-destructive/10 p-4 duration-300">
           <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive" />
           <div className="min-w-0 flex-1">
             <div className="text-sm font-bold text-destructive">
@@ -136,7 +136,7 @@ export function StudyCalendar({
               {formatSeconds(overdueSeconds)})
             </div>
             <div className="mt-1 flex items-center gap-1.5 text-xs text-foreground">
-              <RefreshCw className="h-3 w-3 text-primary" />
+              <RefreshCw className="h-3 w-3 text-primary-emphasis" />
               Sua rota foi recalculada — as aulas pendentes foram redistribuídas
               nos próximos dias de estudo até{" "}
               {new Date(endDateISO + "T00:00:00").toLocaleDateString("pt-BR")}.
@@ -145,7 +145,7 @@ export function StudyCalendar({
         </div>
       )}
 
-      <div className="mt-5 grid grid-cols-7 gap-1 text-center text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+      <div className="mt-5 grid grid-cols-7 gap-1 text-center text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
         {WEEKDAYS.map((d) => (
           <div key={d} className="py-2">
             {d}
@@ -168,30 +168,29 @@ export function StudyCalendar({
             <button
               key={i}
               type="button"
-              onClick={() => hasLessons && setSelected(c.dateISO)}
+              onClick={() =>
+                hasLessons && setSelected(isSelected ? null : c.dateISO)
+              }
               disabled={!hasLessons}
               className={[
-                "aspect-square rounded-lg border p-1.5 text-left transition-all flex flex-col",
+                "flex aspect-square flex-col rounded-lg border p-1.5 text-left transition-all duration-[240ms] ease-out",
                 isSelected
-                  ? "border-primary bg-primary/10 ring-2 ring-primary/30"
+                  ? "border-primary bg-primary/10 shadow-[var(--shadow-glow)] ring-2 ring-primary/30"
                   : isOverdueDay
                     ? "border-destructive/50 bg-destructive/10 hover:border-destructive"
                     : hasLessons
-                      ? "border-border bg-background hover:border-primary/60 hover:bg-primary/5"
-                      : "border-transparent bg-muted/20 cursor-default",
+                      ? "border-border bg-background hover:-translate-y-0.5 hover:border-primary/60 hover:bg-primary/5 hover:shadow-sm"
+                      : "cursor-default border-transparent bg-muted/20",
                 beforeStart && !hasLessons ? "opacity-40" : "",
                 isPast && !isOverdueDay && !hasLessons ? "opacity-50" : "",
                 isPast && hasLessons && !isOverdueDay ? "opacity-70" : "",
               ].join(" ")}
             >
               <div
-                className={[
-                  "text-xs font-semibold",
-                  isToday ? "text-accent-foreground" : "text-foreground",
-                ].join(" ")}
+                className={`text-xs font-semibold ${isToday ? "text-primary-foreground" : "text-foreground"}`}
               >
                 {isToday ? (
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[11px]">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold">
                     {c.day}
                   </span>
                 ) : (
@@ -201,10 +200,11 @@ export function StudyCalendar({
               {hasLessons && day && (
                 <div className="mt-auto space-y-0.5">
                   <div
-                    className={[
-                      "text-[10px] font-bold",
-                      isOverdueDay ? "text-destructive" : "text-primary",
-                    ].join(" ")}
+                    className={`text-[10px] font-bold ${
+                      isOverdueDay
+                        ? "text-destructive"
+                        : "text-primary-emphasis"
+                    }`}
                   >
                     {day.lessons.length} aula{day.lessons.length > 1 ? "s" : ""}
                   </div>
@@ -221,14 +221,13 @@ export function StudyCalendar({
       <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-muted-foreground">
         <Legend swatch="bg-primary" label="Programado" />
         <Legend swatch="bg-destructive" label="Atrasado" />
-        <Legend swatch="bg-accent" label="Hoje" />
       </div>
 
       {selectedDay && (
-        <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4">
+        <div className="animate-in fade-in slide-in-from-bottom-2 mt-6 rounded-xl border border-border bg-muted/30 p-4 duration-300">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-xs font-bold uppercase tracking-wider text-primary">
+              <div className="text-xs font-bold tracking-wider text-primary-emphasis uppercase">
                 {new Date(selectedDay.dateISO + "T00:00:00").toLocaleDateString(
                   "pt-BR",
                   {
@@ -247,7 +246,7 @@ export function StudyCalendar({
             <button
               type="button"
               onClick={() => setSelected(null)}
-              className="rounded-full p-1.5 text-muted-foreground hover:bg-background hover:text-foreground"
+              className="rounded-full p-1.5 text-muted-foreground transition-colors duration-150 hover:bg-background hover:text-foreground"
               aria-label="Fechar"
             >
               <X className="h-4 w-4" />
@@ -277,12 +276,11 @@ export function StudyCalendar({
               return (
                 <li
                   key={l.id}
-                  className={[
-                    "flex items-center justify-between gap-3 rounded-lg border px-3 py-2",
+                  className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 transition-colors duration-150 ${
                     wasMissed
                       ? "border-destructive/40 bg-destructive/5"
-                      : "border-border bg-card",
-                  ].join(" ")}
+                      : "border-border bg-card"
+                  }`}
                 >
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-medium text-foreground">

@@ -32,24 +32,56 @@ manter o lockfile em dia — o CI usa `bun install --frozen-lockfile`.
 - **Roteamento**: TanStack Router com rotas por arquivo em `src/routes/`.
   `src/routeTree.gen.ts` é **gerado automaticamente** pelo plugin do Vite —
   **nunca edite à mão** (é regenerado no `dev`/`build`).
-- **Base path**: a app roda sob `/plano-de-estudos/` no GitHub Pages. Definido
+- **Base path**: a app roda sob `/PLANO-DE-ESTUDOS/` no GitHub Pages (case do nome do repo — o CI deriva via `BASE_PATH`). Definido
   em `vite.config.ts` (`base`) e consumido pelo router via
   `import.meta.env.BASE_URL`. Sobrescreva com `BASE_PATH=/ bun run build` para
   raiz/domínio customizado.
-- **Estilo**: Tailwind CSS v4 via `@tailwindcss/vite`. Tokens de design
-  (cores oklch, fontes AUVP) em `src/styles.css` — modo claro em `:root`,
-  escuro em `.dark`. Componentes de UI em `src/components/ui/` são shadcn/ui
-  (Radix); prefira reutilizá-los.
+- **Estilo**: Tailwind CSS v4 via `@tailwindcss/vite`. Tokens de design em
+  `src/styles.css` — modo claro em `:root`, escuro em `.dark` (toggle via
+  `useTheme` + script anti-FOUC em `index.html`). Componentes de UI em
+  `src/components/ui/` são shadcn/ui (Radix); prefira reutilizá-los.
 - **Estado do usuário**: hooks `useProgress` e `useMeta` em
-  `src/lib/progress-store.ts`. Chaves de `localStorage`: `auvp-progress-v1` e
-  `auvp-meta-v1`. Ao mudar o formato persistido, **versione a chave** (ex.
-  `-v2`) para não quebrar dados salvos dos usuários.
+  `src/lib/progress-store.ts`. Chaves de `localStorage`: `auvp-progress-v1`,
+  `auvp-meta-v1`, `auvp-activity-v1` (aulas concluídas por dia — alimenta
+  streak e gráfico semanal) e `auvp-theme-v1` (tema claro/escuro). Ao mudar o
+  formato persistido, **versione a chave** (ex. `-v2`) para não quebrar dados
+  salvos dos usuários. A atividade é derivada das mudanças de progresso em um
+  `useEffect` (não dentro de updaters) para ser idempotente sob o StrictMode.
 - **Cronograma**: `src/lib/schedule.ts` (`buildSchedule`) distribui as aulas
   pelos dias de estudo e reagenda atrasos. É lógica pura e testável.
 - **Conteúdo da grade**: `src/data/curriculum.ts` é a fonte da verdade de
   módulos/aulas. IDs de aula são derivados de `módulo-número-título`; mudar um
   título muda o ID e **reseta o progresso daquela aula** para usuários
   existentes — evite renomear sem necessidade.
+
+## Design System (AUVP — tema Escola)
+
+A identidade visual segue o **AUVP Design System**, tema **Escola (dourado)**:
+https://produtosauvp.github.io/central/design-system (fonte dos tokens:
+repositório `ProdutosAUVP/central`, `src/index.css`, blocos `.escola` e
+`.dark.escola`).
+
+Regras que este app segue — mantenha-as em qualquer mudança visual:
+
+- **Cores em HSL**, copiadas dos tokens oficiais. Claro: dourado
+  `hsl(42 84% 63%)` como `--primary` com texto escuro; escuro: fundo preto com
+  dourado `hsl(42 90% 65%)`. Status semânticos da Escola usam **âmbar como
+  success** (não verde).
+- **Contraste**: o dourado puro NÃO passa AA como texto sobre branco. Para
+  texto/ícone dourado use `text-primary-emphasis` (`hsl(40 90% 29%)` no claro;
+  igual ao primary no escuro). Nunca `text-primary` sobre `--background` claro.
+- **Tipografia**: `font-display` (Anek Latin) para títulos; Roboto
+  (`--font-sans`) para corpo/labels; **Sora é exclusiva para botões** — use o
+  utilitário `.btn-cta` (Sora Bold 13px uppercase tracking-wider).
+- **Motion**: padrão `240ms ease/ease-out` (hovers, cards com
+  `hover:-translate-y-0.5` + sombra `--shadow-lift`); `320ms` para destaques;
+  barras de progresso `700ms`; anel de progresso `1.5s ease-out`. Entradas com
+  `animate-in fade-in slide-in-*` (tw-animate-css).
+- **Utilitários próprios** em `styles.css`: `bg-brand-gradient` (gradiente
+  dourado), `bg-spotlight` (halo do hero), `btn-cta`.
+- **Sem emojis na UI** — use ícones `lucide-react`.
+- Padrões de componente vêm das seções da plataforma no DS (Dashboard do
+  Aluno, Grade Curricular, Jornada do Herói, Progress Geist, Tags & Badges).
 
 ## Convenções
 

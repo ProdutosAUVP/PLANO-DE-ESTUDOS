@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { progress, cycleStatus, reset, hydrated } = useProgress();
+  const { progress, activity, cycleStatus, reset, hydrated } = useProgress();
   const { meta, setMeta } = useMeta();
 
   if (!hydrated) return <div className="min-h-screen bg-background" />;
@@ -20,27 +20,37 @@ function Index() {
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         <PlanHeader
           progress={progress}
+          activity={activity}
           meta={meta}
           setMeta={setMeta}
           onReset={reset}
         />
-        <div className="mt-6">
+        <div className="mt-4">
           <StudyCalendar
             meta={meta}
             progress={progress}
             onCycle={cycleStatus}
           />
         </div>
-        <div className="mt-8 space-y-4">
-          {modules.map((m, i) => (
-            <ModuleCard
-              key={m.id}
-              module={m}
-              progress={progress}
-              onCycle={cycleStatus}
-              defaultOpen={i === 0}
-            />
-          ))}
+        <div className="mt-8">
+          <h2 className="font-display px-1 text-2xl font-bold text-foreground">
+            Grade curricular
+          </h2>
+          <p className="mt-1 px-1 text-sm text-muted-foreground">
+            Clique em uma aula para alternar entre não iniciado, em andamento e
+            feito.
+          </p>
+          <div className="mt-4 space-y-4">
+            {modules.map((m, i) => (
+              <ModuleCard
+                key={m.id}
+                module={m}
+                progress={progress}
+                onCycle={cycleStatus}
+                defaultOpen={i === 0}
+              />
+            ))}
+          </div>
         </div>
         <footer className="mt-10 text-center text-xs text-muted-foreground">
           Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é

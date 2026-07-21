@@ -25,6 +25,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Habilita o GitHub Pages (source = GitHub Actions) automaticamente
+      # na primeira execução, sem configuração manual em Settings.
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:

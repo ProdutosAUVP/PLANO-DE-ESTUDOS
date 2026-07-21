@@ -73,9 +73,10 @@ export function ModuleCard({
   return (
     <article
       id={`module-${module.id}`}
-      className={`scroll-mt-4 overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] ${
-        complete ? "border-success/40" : "border-border hover:border-primary/40"
-      }`}
+      className={`scroll-mt-4 overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out ${
+        // Fechado: hover com elevação; expandido: sem nenhum efeito de hover.
+        open ? "" : "hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
+      } ${complete ? "border-success/40" : `border-border ${open ? "" : "hover:border-primary/40"}`}`}
     >
       <button
         type="button"

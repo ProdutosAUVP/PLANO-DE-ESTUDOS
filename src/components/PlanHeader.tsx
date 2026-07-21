@@ -1,4 +1,12 @@
-import { Clock, Flame, Gauge, PlayCircle } from "lucide-react";
+import {
+  CalendarDays,
+  Clock,
+  Flame,
+  Gauge,
+  PlayCircle,
+  SlidersHorizontal,
+  Timer,
+} from "lucide-react";
 import {
   modules,
   allLessons,
@@ -8,9 +16,18 @@ import {
 } from "@/data/curriculum";
 import { computeStreak, lastSevenDays } from "@/lib/progress-store";
 import type { ActivityMap, Status } from "@/lib/progress-store";
+import { PERIOD_LABELS, STYLE_LABELS, STYLE_TIPS } from "@/lib/profile-store";
+import type { Profile } from "@/lib/profile-store";
 import { useCountUp } from "@/hooks/use-count-up";
 import { ProgressRing } from "./ProgressRing";
 import { ThemeToggle } from "./ThemeToggle";
+
+function greeting(): string {
+  const h = new Date().getHours();
+  if (h >= 5 && h < 12) return "Bom dia";
+  if (h >= 12 && h < 18) return "Boa tarde";
+  return "Boa noite";
+}
 
 const PLAN_WEEKS: Record<string, number> = {
   "1m": 4,
@@ -54,12 +71,16 @@ export function PlanHeader({
   meta,
   setMeta,
   onReset,
+  profile,
+  onEditProfile,
 }: {
   progress: Record<string, Status>;
   activity: ActivityMap;
   meta: Meta;
   setMeta: (m: Meta) => void;
   onReset: () => void;
+  profile: Profile;
+  onEditProfile: () => void;
 }) {
   const doneLessons = allLessons.filter((l) => progress[l.id] === "feito");
   const doneSec = doneLessons.reduce(
@@ -136,6 +157,15 @@ export function PlanHeader({
             <ThemeToggle />
             <button
               type="button"
+              onClick={onEditProfile}
+              title="Personalizar experiência"
+              aria-label="Personalizar experiência"
+              className="rounded-full border border-border bg-card p-2.5 text-muted-foreground transition-all duration-[240ms] ease-out hover:border-primary/50 hover:text-foreground hover:shadow-sm active:scale-95"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
               onClick={() => {
                 if (confirm("Resetar todo o progresso?")) onReset();
               }}
@@ -149,13 +179,38 @@ export function PlanHeader({
         <div className="mt-4 flex flex-col items-start gap-8 md:flex-row md:items-center">
           <div className="min-w-0 flex-1">
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              Acompanhe sua jornada de investidor
+              {profile.name
+                ? `${greeting()}, ${profile.name}`
+                : "Acompanhe sua jornada de investidor"}
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Toda a grade da AUVP Escola — {modules.length} módulos e mais de
-              100 aulas — com seu ritmo, seu calendário e seu progresso em um só
-              lugar.
+              {profile.name
+                ? `Sua jornada de investidor continua: ${modules.length} módulos da AUVP Escola no seu ritmo, no seu calendário.`
+                : `Toda a grade da AUVP Escola — ${modules.length} módulos e mais de 100 aulas — com seu ritmo, seu calendário e seu progresso em um só lugar.`}
             </p>
+
+            {/* Perfil de estudo (definido no onboarding) */}
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <ProfileChip icon={<Clock className="h-3 w-3" />}>
+                {profile.minutesPerDay} min/dia
+              </ProfileChip>
+              <ProfileChip icon={<CalendarDays className="h-3 w-3" />}>
+                {daysPerWeek} dia{daysPerWeek !== 1 ? "s" : ""}/semana
+              </ProfileChip>
+              <ProfileChip icon={<Timer className="h-3 w-3" />}>
+                {STYLE_LABELS[profile.style]}
+              </ProfileChip>
+              <ProfileChip icon={<Flame className="h-3 w-3" />}>
+                {PERIOD_LABELS[profile.period]}
+              </ProfileChip>
+              <button
+                type="button"
+                onClick={onEditProfile}
+                className="text-[11px] font-bold tracking-wider text-primary-emphasis uppercase underline-offset-4 transition-colors duration-150 hover:underline"
+              >
+                Editar
+              </button>
+            </div>
 
             {/* Jornada por módulos (DS: Jornada do Herói) */}
             <div className="mt-6 max-w-xl">
@@ -346,6 +401,15 @@ export function PlanHeader({
             </div>
           </div>
 
+          {dailyMinutes > profile.minutesPerDay && (
+            <div className="mt-4 rounded-lg border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-foreground">
+              O plano atual pede <strong>{dailyMinutes} min</strong> por dia de
+              estudo, acima dos <strong>{profile.minutesPerDay} min</strong> que
+              você informou ter. Considere um plano mais longo, mais dias de
+              estudo, ou atualize seu perfil.
+            </div>
+          )}
+
           <p className="mt-4 text-xs text-muted-foreground">
             Carga total:{" "}
             <strong className="text-foreground">
@@ -400,12 +464,26 @@ export function PlanHeader({
             })}
           </div>
           <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-            Cada barra mostra as aulas concluídas no dia. Manter a constância
-            vale mais do que maratonar.
+            {STYLE_TIPS[profile.style]}
           </p>
         </section>
       </div>
     </>
+  );
+}
+
+function ProfileChip({
+  icon,
+  children,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
+      <span className="text-primary-emphasis">{icon}</span>
+      {children}
+    </span>
   );
 }
 

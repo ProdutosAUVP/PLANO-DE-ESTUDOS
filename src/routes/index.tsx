@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { modules } from "@/data/curriculum";
 import { useProgress, useMeta } from "@/lib/progress-store";
+import { useProfile } from "@/lib/profile-store";
 import { ModuleCard } from "@/components/ModuleCard";
 import { PlanHeader } from "@/components/PlanHeader";
 import { StudyCalendar } from "@/components/StudyCalendar";
+import { Onboarding } from "@/components/Onboarding";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -12,8 +15,32 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { progress, activity, cycleStatus, reset, hydrated } = useProgress();
   const { meta, setMeta } = useMeta();
+  const { profile, setProfile, hydrated: profileHydrated } = useProfile();
+  const [editingProfile, setEditingProfile] = useState(false);
 
-  if (!hydrated) return <div className="min-h-screen bg-background" />;
+  if (!hydrated || !profileHydrated)
+    return <div className="min-h-screen bg-background" />;
+
+  if (!profile.onboarded || editingProfile) {
+    return (
+      <Onboarding
+        initialProfile={profile}
+        initialStudyDays={meta.studyDays ?? []}
+        editing={editingProfile}
+        onComplete={(p, metaPatch) => {
+          setProfile(p);
+          setMeta({ ...meta, ...metaPatch });
+          setEditingProfile(false);
+        }}
+        onSkip={
+          !profile.onboarded
+            ? () => setProfile({ ...profile, onboarded: true })
+            : undefined
+        }
+        onClose={editingProfile ? () => setEditingProfile(false) : undefined}
+      />
+    );
+  }
 
   return (
     <main className="min-h-screen bg-background">
@@ -24,6 +51,8 @@ function Index() {
           meta={meta}
           setMeta={setMeta}
           onReset={reset}
+          profile={profile}
+          onEditProfile={() => setEditingProfile(true)}
         />
         <div className="mt-4">
           <StudyCalendar

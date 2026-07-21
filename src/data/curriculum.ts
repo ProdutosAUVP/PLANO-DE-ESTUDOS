@@ -15,12 +15,17 @@ export type Module = {
   lessons: Lesson[];
 };
 
-const mk = (modId: string) => (n: string, t: string, d: string): Lesson => ({
-  id: `${modId}-${n}-${t}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 80),
-  number: n,
-  title: t,
-  duration: d,
-});
+const mk =
+  (modId: string) =>
+  (n: string, t: string, d: string): Lesson => ({
+    id: `${modId}-${n}-${t}`
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .slice(0, 80),
+    number: n,
+    title: t,
+    duration: d,
+  });
 
 export const modules: Module[] = [
   {
@@ -130,7 +135,11 @@ export const modules: Module[] = [
       m("Extra", "Small Caps", "32:26"),
       m("Aula 19", "O método burro", "08:23"),
       m("Aula 20", "Como montar uma carteira de investimentos", "21:09"),
-      m("Extra", "Por que o brasileiro gosta de investir em dividendos?", "18:20"),
+      m(
+        "Extra",
+        "Por que o brasileiro gosta de investir em dividendos?",
+        "18:20",
+      ),
       m("Extra", "Armadilhas do Mercado Financeiro", "21:40"),
     ])(mk("m4")),
   },
@@ -143,7 +152,11 @@ export const modules: Module[] = [
       "Conceito e aplicação da reserva de valor, com estratégias em ouro e Bitcoin.",
     totalDuration: "2h 16min",
     lessons: ((m) => [
-      m("Aula 01", "O que é uma reserva de valor, e qual a sua função?", "19:11"),
+      m(
+        "Aula 01",
+        "O que é uma reserva de valor, e qual a sua função?",
+        "19:11",
+      ),
       m("Aula 02", "Comprando ouro físico", "14:03"),
       m("Aula 03", "Como investir em ouro", "11:49"),
       m("Aula 04", "História do bitcoin", "19:57"),
@@ -186,12 +199,20 @@ export const modules: Module[] = [
     lessons: ((m) => [
       m("Aula 01", "O começo", "13:06"),
       m("Aula 02", "Onde você está", "09:50"),
-      m("Aula 03", "PIAR (Plataforma Integrada de Avaliação de Riscos)", "13:01"),
+      m(
+        "Aula 03",
+        "PIAR (Plataforma Integrada de Avaliação de Riscos)",
+        "13:01",
+      ),
       m("Aula 04", "Corrigindo os erros da sua carteira", "10:51"),
       m("Aula 05", "Como e quando vender uma ação?", "11:29"),
       m("Aula 06", "Como lidar com os erros?", "06:36"),
       m("Aula 07", "E quando uma ação se valoriza demais?", "12:40"),
-      m("Aula 08", "Controle sobre coisas que fogem do nosso controle", "03:29"),
+      m(
+        "Aula 08",
+        "Controle sobre coisas que fogem do nosso controle",
+        "03:29",
+      ),
     ])(mk("m7")),
   },
   {
@@ -210,7 +231,11 @@ export const modules: Module[] = [
       m("Aula 05", "Imposto de Renda na Renda Fixa", "17:00"),
       m("Aula 06", "Imposto de Renda nos Fundos de Investimento", "05:32"),
       m("Aula 07", "Imposto de Renda nos FIIs, Fiagros e FI-Infras", "14:03"),
-      m("Aula 08", "Declarando dividendos, JCP, rendimentos e bonificações", "21:24"),
+      m(
+        "Aula 08",
+        "Declarando dividendos, JCP, rendimentos e bonificações",
+        "21:24",
+      ),
       m("Aula 09", "Investimentos Internacionais", "19:25"),
       m("Aula 10", "Criptomoedas", "24:45"),
       m("Aula 11", "Como gerar um DARF?", "06:41"),
@@ -243,7 +268,11 @@ export const modules: Module[] = [
     description: "Aulas extensas e aprofundadas sobre temas-chave.",
     totalDuration: "2h 38min",
     lessons: ((m) => [
-      m("Aula 01", "O que são os ETFs globais e por que eles são fundamentais?", "53:27"),
+      m(
+        "Aula 01",
+        "O que são os ETFs globais e por que eles são fundamentais?",
+        "53:27",
+      ),
       m("Aula 02", "Marcação a mercado", "14:04"),
       m("Aula 03", "A leitura e interpretação de indicadores", "54:33"),
       m("Aula 04", "A importância de se blindar do consumismo", "37:32"),

@@ -1,14 +1,39 @@
-import { modules, allLessons, totalSeconds, formatSeconds, durationToSeconds } from "@/data/curriculum";
+import {
+  modules,
+  allLessons,
+  totalSeconds,
+  formatSeconds,
+  durationToSeconds,
+} from "@/data/curriculum";
 import { ProgressBar } from "./ProgressBar";
 import type { Status } from "@/lib/progress-store";
 
-const PLAN_WEEKS: Record<string, number> = { "1m": 4, "2m": 8, "3m": 13, "6m": 26, livre: 0 };
+const PLAN_WEEKS: Record<string, number> = {
+  "1m": 4,
+  "2m": 8,
+  "3m": 13,
+  "6m": 26,
+  livre: 0,
+};
 
 type Plan = "1m" | "2m" | "3m" | "6m" | "livre";
-type Meta = { startDate: string; plan: Plan; targetDate?: string; studyDays?: number[] };
+type Meta = {
+  startDate: string;
+  plan: Plan;
+  targetDate?: string;
+  studyDays?: number[];
+};
 
 const WEEKDAY_LABELS = ["D", "S", "T", "Q", "Q", "S", "S"];
-const WEEKDAY_NAMES = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+const WEEKDAY_NAMES = [
+  "Domingo",
+  "Segunda",
+  "Terça",
+  "Quarta",
+  "Quinta",
+  "Sexta",
+  "Sábado",
+];
 
 export function PlanHeader({
   progress,
@@ -22,7 +47,10 @@ export function PlanHeader({
   onReset: () => void;
 }) {
   const doneLessons = allLessons.filter((l) => progress[l.id] === "feito");
-  const doneSec = doneLessons.reduce((a, l) => a + durationToSeconds(l.duration), 0);
+  const doneSec = doneLessons.reduce(
+    (a, l) => a + durationToSeconds(l.duration),
+    0,
+  );
   const pct = (doneLessons.length / allLessons.length) * 100;
 
   const start = new Date(meta.startDate);
@@ -35,14 +63,22 @@ export function PlanHeader({
   }
 
   const weeks = endDate
-    ? Math.max(1, Math.ceil((endDate.getTime() - start.getTime()) / (7 * 86400000)))
+    ? Math.max(
+        1,
+        Math.ceil((endDate.getTime() - start.getTime()) / (7 * 86400000)),
+      )
     : 0;
-  const studyDays = meta.studyDays && meta.studyDays.length > 0 ? meta.studyDays : [0,1,2,3,4,5,6];
+  const studyDays =
+    meta.studyDays && meta.studyDays.length > 0
+      ? meta.studyDays
+      : [0, 1, 2, 3, 4, 5, 6];
   const daysPerWeek = studyDays.length;
-  const weeklyMinutes = weeks > 0 ? Math.round(((totalSeconds - doneSec) / 60) / weeks) : 0;
-  const dailyMinutes = weeks > 0 && daysPerWeek > 0
-    ? Math.round(((totalSeconds - doneSec) / 60) / (weeks * daysPerWeek))
-    : 0;
+  const weeklyMinutes =
+    weeks > 0 ? Math.round((totalSeconds - doneSec) / 60 / weeks) : 0;
+  const dailyMinutes =
+    weeks > 0 && daysPerWeek > 0
+      ? Math.round((totalSeconds - doneSec) / 60 / (weeks * daysPerWeek))
+      : 0;
   const end = endDate ? endDate.toLocaleDateString("pt-BR") : "—";
 
   const toggleDay = (d: number) => {
@@ -58,15 +94,23 @@ export function PlanHeader({
     <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">AUVP Escola · Plano de Estudos</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Acompanhe sua jornada de investidor</h1>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            AUVP Escola · Plano de Estudos
+          </p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Acompanhe sua jornada de investidor
+          </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Inspirado no plano da Tera, com toda a grade da AUVP Escola: 7 módulos + bônus, mais de 100 aulas. Marque seu progresso e organize seu ritmo.
+            Inspirado no plano da Tera, com toda a grade da AUVP Escola: 7
+            módulos + bônus, mais de 100 aulas. Marque seu progresso e organize
+            seu ritmo.
           </p>
         </div>
         <button
           type="button"
-          onClick={() => { if (confirm("Resetar todo o progresso?")) onReset(); }}
+          onClick={() => {
+            if (confirm("Resetar todo o progresso?")) onReset();
+          }}
           className="rounded-full border border-border px-4 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-destructive hover:text-destructive"
         >
           Resetar progresso
@@ -111,16 +155,23 @@ export function PlanHeader({
         ) : (
           <div className="flex flex-col gap-1.5 text-xs font-medium text-muted-foreground">
             Conclusão prevista
-            <div className="rounded-lg border border-input bg-muted/40 px-3 py-2 text-sm text-foreground">{end}</div>
+            <div className="rounded-lg border border-input bg-muted/40 px-3 py-2 text-sm text-foreground">
+              {end}
+            </div>
           </div>
         )}
       </div>
 
       {meta.plan === "livre" && (
         <div className="mt-3 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs text-foreground">
-          {meta.targetDate
-            ? <>Conclusão prevista: <strong>{end}</strong> · {weeks} semana{weeks > 1 ? "s" : ""} de estudo.</>
-            : "Defina uma data alvo para calcular o ritmo sugerido."}
+          {meta.targetDate ? (
+            <>
+              Conclusão prevista: <strong>{end}</strong> · {weeks} semana
+              {weeks > 1 ? "s" : ""} de estudo.
+            </>
+          ) : (
+            "Defina uma data alvo para calcular o ritmo sugerido."
+          )}
         </div>
       )}
 
@@ -157,17 +208,32 @@ export function PlanHeader({
         </div>
       </div>
 
-      <div className="mt-6"><ProgressBar value={pct} label="Progresso geral" /></div>
+      <div className="mt-6">
+        <ProgressBar value={pct} label="Progresso geral" />
+      </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-4">
-        <Stat label="Aulas concluídas" value={`${doneLessons.length}/${allLessons.length}`} />
+        <Stat
+          label="Aulas concluídas"
+          value={`${doneLessons.length}/${allLessons.length}`}
+        />
         <Stat label="Tempo assistido" value={formatSeconds(doneSec)} />
-        <Stat label="Por semana" value={weeklyMinutes ? `${weeklyMinutes} min` : "—"} />
-        <Stat label="Por dia de estudo" value={dailyMinutes ? `${dailyMinutes} min` : "—"} />
+        <Stat
+          label="Por semana"
+          value={weeklyMinutes ? `${weeklyMinutes} min` : "—"}
+        />
+        <Stat
+          label="Por dia de estudo"
+          value={dailyMinutes ? `${dailyMinutes} min` : "—"}
+        />
       </div>
 
       <div className="mt-4 text-xs text-muted-foreground">
-        Carga total: <strong className="text-foreground">{formatSeconds(totalSeconds)}</strong> em {modules.length} módulos.
+        Carga total:{" "}
+        <strong className="text-foreground">
+          {formatSeconds(totalSeconds)}
+        </strong>{" "}
+        em {modules.length} módulos.
       </div>
     </section>
   );
@@ -176,7 +242,9 @@ export function PlanHeader({
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-border bg-muted/30 px-4 py-3">
-      <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">{label}</div>
+      <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+        {label}
+      </div>
       <div className="mt-1 text-lg font-semibold text-foreground">{value}</div>
     </div>
   );

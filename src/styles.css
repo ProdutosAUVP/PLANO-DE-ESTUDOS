@@ -4,8 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* AUVP Design System — fontes oficiais */
-@import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Sora:wght@700&display=swap");
+/* AUVP Design System — fontes oficiais carregadas via <link> em index.html */
 
 /*
  * Design system definition.
@@ -76,23 +75,31 @@
   --card-foreground: oklch(0 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0 0 0);
-  --primary: oklch(0.27 0.06 155);          /* #023620 */
+  --primary: oklch(0.27 0.06 155); /* #023620 */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.34 0.05 160);        /* #154736 */
+  --secondary: oklch(0.34 0.05 160); /* #154736 */
   --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.96 0.005 145);           /* #F1F4F1 */
-  --muted-foreground: oklch(0.35 0 0);      /* #404040 */
-  --accent: oklch(0.78 0.16 75);            /* #F6A823 — Escola */
+  --muted: oklch(0.96 0.005 145); /* #F1F4F1 */
+  --muted-foreground: oklch(0.35 0 0); /* #404040 */
+  --accent: oklch(0.78 0.16 75); /* #F6A823 — Escola */
   --accent-foreground: oklch(0.18 0.02 160);
-  --destructive: oklch(0.62 0.21 25);       /* #EF4343 */
+  --destructive: oklch(0.62 0.21 25); /* #EF4343 */
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.91 0.01 145);           /* #DDE3DD */
+  --border: oklch(0.91 0.01 145); /* #DDE3DD */
   --input: oklch(0.91 0.01 145);
   --ring: oklch(0.27 0.06 155);
   --success: oklch(0.5 0.12 155);
   --warning: oklch(0.78 0.16 75);
-  --gradient-primary: linear-gradient(135deg, oklch(0.27 0.06 155), oklch(0.34 0.05 160));
-  --gradient-accent: linear-gradient(135deg, oklch(0.78 0.16 75), oklch(0.72 0.17 65));
+  --gradient-primary: linear-gradient(
+    135deg,
+    oklch(0.27 0.06 155),
+    oklch(0.34 0.05 160)
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    oklch(0.78 0.16 75),
+    oklch(0.72 0.17 65)
+  );
   --shadow-glow: 0 10px 40px -10px oklch(0.27 0.06 155 / 0.18);
   --shadow-card: 0 1px 2px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.04);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -114,24 +121,28 @@
   /* AUVP — modo escuro: preto/branco com verde de acento #5A8770 */
   --background: oklch(0 0 0);
   --foreground: oklch(1 0 0);
-  --card: oklch(0.18 0 0);                  /* #1B1B1B */
+  --card: oklch(0.18 0 0); /* #1B1B1B */
   --card-foreground: oklch(1 0 0);
   --popover: oklch(0.18 0 0);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.55 0.06 150);          /* #5A8770 */
+  --primary: oklch(0.55 0.06 150); /* #5A8770 */
   --primary-foreground: oklch(0 0 0);
   --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.78 0 0);      /* #BFBFBF */
-  --accent: oklch(0.78 0.16 75);            /* Escola yellow */
+  --muted-foreground: oklch(0.78 0 0); /* #BFBFBF */
+  --accent: oklch(0.78 0.16 75); /* Escola yellow */
   --accent-foreground: oklch(0 0 0);
   --destructive: oklch(0.62 0.21 25);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.55 0.06 150);
-  --gradient-primary: linear-gradient(135deg, oklch(0.55 0.06 150), oklch(0.45 0.06 155));
+  --gradient-primary: linear-gradient(
+    135deg,
+    oklch(0.55 0.06 150),
+    oklch(0.45 0.06 155)
+  );
   --shadow-glow: 0 10px 40px -10px oklch(0.55 0.06 150 / 0.4);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -159,7 +170,12 @@
     font-family: var(--font-sans);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     letter-spacing: -0.01em;
   }

@@ -18,9 +18,18 @@ function Index() {
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
-        <PlanHeader progress={progress} meta={meta} setMeta={setMeta} onReset={reset} />
+        <PlanHeader
+          progress={progress}
+          meta={meta}
+          setMeta={setMeta}
+          onReset={reset}
+        />
         <div className="mt-6">
-          <StudyCalendar meta={meta} progress={progress} onCycle={cycleStatus} />
+          <StudyCalendar
+            meta={meta}
+            progress={progress}
+            onCycle={cycleStatus}
+          />
         </div>
         <div className="mt-8 space-y-4">
           {modules.map((m, i) => (
@@ -34,7 +43,8 @@ function Index() {
           ))}
         </div>
         <footer className="mt-10 text-center text-xs text-muted-foreground">
-          Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é salvo no seu navegador.
+          Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é
+          salvo no seu navegador.
         </footer>
       </div>
     </main>

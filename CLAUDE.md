@@ -32,7 +32,7 @@ manter o lockfile em dia — o CI usa `bun install --frozen-lockfile`.
 - **Roteamento**: TanStack Router com rotas por arquivo em `src/routes/`.
   `src/routeTree.gen.ts` é **gerado automaticamente** pelo plugin do Vite —
   **nunca edite à mão** (é regenerado no `dev`/`build`).
-- **Base path**: a app roda sob `/plano-de-estudos/` no GitHub Pages. Definido
+- **Base path**: a app roda sob `/PLANO-DE-ESTUDOS/` no GitHub Pages (case do nome do repo — o CI deriva via `BASE_PATH`). Definido
   em `vite.config.ts` (`base`) e consumido pelo router via
   `import.meta.env.BASE_URL`. Sobrescreva com `BASE_PATH=/ bun run build` para
   raiz/domínio customizado.

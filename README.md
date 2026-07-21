@@ -98,13 +98,13 @@ Para ativar (uma única vez):
 A aplicação ficará disponível em:
 
 ```
-https://produtosauvp.github.io/plano-de-estudos/
+https://produtosauvp.github.io/PLANO-DE-ESTUDOS/
 ```
 
 ### Sobre o caminho base (`base`)
 
 Como é um _project site_ do GitHub Pages, a aplicação é servida a partir do
-sub-caminho `/plano-de-estudos/`. Isso está configurado em
+sub-caminho `/PLANO-DE-ESTUDOS/` (mesmo case do nome do repositório — o Pages é case-sensitive). Isso está configurado em
 [`vite.config.ts`](vite.config.ts) através da opção `base` e repassado ao
 roteador via `import.meta.env.BASE_URL`.
 

@@ -5,8 +5,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
 // Base path for GitHub Pages project site: https://<user>.github.io/<repo>/
-// Overridable via BASE_PATH env var (e.g. "/" for a custom domain or user site).
-const base = process.env.BASE_PATH ?? "/plano-de-estudos/";
+// GitHub Pages paths are case-sensitive, so this MUST match the repo name
+// exactly. The CI workflow passes BASE_PATH derived from the repo name;
+// override with BASE_PATH=/ for a custom domain or user site.
+const base = process.env.BASE_PATH ?? "/PLANO-DE-ESTUDOS/";
 
 export default defineConfig({
   base,

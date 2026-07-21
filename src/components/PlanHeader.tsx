@@ -18,9 +18,11 @@ import { computeStreak, lastSevenDays } from "@/lib/progress-store";
 import type { ActivityMap, Status } from "@/lib/progress-store";
 import { PERIOD_LABELS, STYLE_LABELS, STYLE_TIPS } from "@/lib/profile-store";
 import type { Profile } from "@/lib/profile-store";
+import { getModuleIcon } from "@/lib/module-icons";
 import { useCountUp } from "@/hooks/use-count-up";
 import { ProgressRing } from "./ProgressRing";
 import { ThemeToggle } from "./ThemeToggle";
+import logoHorizontal from "@/assets/logos/auvp-escola-horizontal-amarelo.svg";
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -150,9 +152,16 @@ export function PlanHeader({
       {/* ============ Hero ============ */}
       <section className="bg-spotlight relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <p className="text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
-            AUVP Escola · Plano de Estudos
-          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src={logoHorizontal}
+              alt="AUVP Escola"
+              className="h-8 w-auto"
+            />
+            <span className="border-l border-border pl-3 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase">
+              Plano de Estudos
+            </span>
+          </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
@@ -212,49 +221,48 @@ export function PlanHeader({
               </button>
             </div>
 
-            {/* Jornada por módulos (DS: Jornada do Herói) */}
-            <div className="mt-6 max-w-xl">
-              <div className="relative flex h-8 items-center justify-between select-none">
-                <div className="absolute top-1/2 right-[10px] left-[10px] h-[3px] -translate-y-1/2">
-                  <div className="absolute inset-0 rounded-full bg-muted-foreground/15" />
-                  <div
-                    className="bg-brand-gradient absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                {modules.map((m) => {
-                  const total = m.lessons.length;
-                  const done = m.lessons.filter(
-                    (l) => progress[l.id] === "feito",
-                  ).length;
-                  const isComplete = done === total;
-                  const started = done > 0;
-                  return (
-                    <button
+            {/* Jornada por módulos (DS: Jornada do Herói) — ícones por módulo,
+                bônus separados por uma linha fina e o rótulo "Bônus" */}
+            <div className="mt-6 max-w-2xl">
+              <div className="flex items-center gap-1 select-none sm:gap-1.5">
+                {modules
+                  .filter((m) => m.index !== null)
+                  .map((m, i) => (
+                    <span
                       key={m.id}
-                      type="button"
-                      onClick={() => scrollToModule(m.id)}
-                      title={`${m.title} — ${done}/${total} aulas`}
-                      className={`relative z-10 size-5 rounded-full border-2 bg-background transition-all duration-300 hover:scale-125 ${
-                        isComplete
-                          ? "border-primary"
-                          : started
-                            ? "border-secondary"
-                            : "border-muted-foreground/40"
-                      }`}
+                      className="flex min-w-0 items-center gap-1 sm:gap-1.5"
                     >
-                      {isComplete && (
-                        <span className="absolute top-1/2 left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary" />
-                      )}
-                      {!isComplete && started && (
-                        <span className="absolute top-1/2 left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary/50" />
-                      )}
-                    </button>
-                  );
-                })}
+                      {i > 0 && <JourneyConnector />}
+                      <JourneyDot
+                        module={m}
+                        progress={progress}
+                        onClick={() => scrollToModule(m.id)}
+                      />
+                    </span>
+                  ))}
+                <span className="mx-1.5 h-6 w-px shrink-0 bg-border sm:mx-2" />
+                <span className="shrink-0 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                  Bônus
+                </span>
+                <span className="mx-1.5 h-6 w-px shrink-0 bg-border sm:mx-2" />
+                {modules
+                  .filter((m) => m.index === null)
+                  .map((m, i) => (
+                    <span
+                      key={m.id}
+                      className="flex min-w-0 items-center gap-1 sm:gap-1.5"
+                    >
+                      {i > 0 && <JourneyConnector />}
+                      <JourneyDot
+                        module={m}
+                        progress={progress}
+                        onClick={() => scrollToModule(m.id)}
+                      />
+                    </span>
+                  ))}
               </div>
               <p className="mt-2 text-[11px] tracking-wider text-muted-foreground uppercase">
-                Clique em um ponto para ir ao módulo
+                Clique em um ícone para ir ao módulo
               </p>
             </div>
           </div>
@@ -469,6 +477,44 @@ export function PlanHeader({
         </section>
       </div>
     </>
+  );
+}
+
+function JourneyConnector() {
+  return (
+    <span className="h-px w-1.5 shrink-0 bg-border sm:w-2.5" aria-hidden />
+  );
+}
+
+function JourneyDot({
+  module: m,
+  progress,
+  onClick,
+}: {
+  module: (typeof modules)[number];
+  progress: Record<string, Status>;
+  onClick: () => void;
+}) {
+  const Icon = getModuleIcon(m.id);
+  const total = m.lessons.length;
+  const done = m.lessons.filter((l) => progress[l.id] === "feito").length;
+  const isComplete = done === total && total > 0;
+  const started = done > 0;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={`${m.title} — ${done}/${total} aulas`}
+      className={`flex size-7 shrink-0 items-center justify-center rounded-full border transition-all duration-[240ms] ease-out hover:scale-110 sm:size-8 ${
+        isComplete
+          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+          : started
+            ? "border-primary/60 bg-primary/10 text-primary-emphasis"
+            : "border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
+      }`}
+    >
+      <Icon className="h-3.5 w-3.5" />
+    </button>
   );
 }
 

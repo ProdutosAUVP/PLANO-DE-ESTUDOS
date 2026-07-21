@@ -32,6 +32,7 @@ import type {
   StudyStyle,
 } from "@/lib/profile-store";
 import type { Meta } from "@/lib/progress-store";
+import logoVertical from "@/assets/logos/auvp-escola-vertical-amarelo.svg";
 
 const WEEKDAY_LABELS = ["D", "S", "T", "Q", "Q", "S", "S"];
 const WEEKDAY_NAMES = [
@@ -207,8 +208,14 @@ export function Onboarding({
         >
           {step === 0 && (
             <>
-              <p className="text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
-                AUVP Escola · Plano de Estudos
+              {/* Logo vertical: versão preferencial da marca AUVP Escola */}
+              <img
+                src={logoVertical}
+                alt="AUVP Escola"
+                className="h-24 w-auto"
+              />
+              <p className="mt-4 text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
+                Plano de Estudos
               </p>
               <h1 className="font-display mt-2 text-3xl font-extrabold tracking-tight text-foreground">
                 {editing

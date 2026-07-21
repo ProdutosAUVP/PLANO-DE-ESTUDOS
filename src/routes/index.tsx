@@ -7,6 +7,7 @@ import { ModuleCard } from "@/components/ModuleCard";
 import { PlanHeader } from "@/components/PlanHeader";
 import { StudyCalendar } from "@/components/StudyCalendar";
 import { Onboarding } from "@/components/Onboarding";
+import logoHorizontal from "@/assets/logos/auvp-escola-horizontal-amarelo.svg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -70,20 +71,48 @@ function Index() {
             feito.
           </p>
           <div className="mt-4 space-y-4">
-            {modules.map((m, i) => (
-              <ModuleCard
-                key={m.id}
-                module={m}
-                progress={progress}
-                onCycle={cycleStatus}
-                defaultOpen={i === 0}
-              />
-            ))}
+            {modules
+              .filter((m) => m.index !== null)
+              .map((m, i) => (
+                <ModuleCard
+                  key={m.id}
+                  module={m}
+                  progress={progress}
+                  onCycle={cycleStatus}
+                  defaultOpen={i === 0}
+                />
+              ))}
+          </div>
+          {/* Separador dos módulos bônus */}
+          <div className="mt-8 mb-4 flex items-center gap-3">
+            <span className="text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase">
+              Bônus
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
+          <div className="space-y-4">
+            {modules
+              .filter((m) => m.index === null)
+              .map((m) => (
+                <ModuleCard
+                  key={m.id}
+                  module={m}
+                  progress={progress}
+                  onCycle={cycleStatus}
+                />
+              ))}
           </div>
         </div>
-        <footer className="mt-10 text-center text-xs text-muted-foreground">
-          Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é
-          salvo no seu navegador.
+        <footer className="mt-10 flex flex-col items-center gap-3 text-center text-xs text-muted-foreground">
+          <img
+            src={logoHorizontal}
+            alt="AUVP Escola"
+            className="h-6 w-auto opacity-80"
+          />
+          <span>
+            Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é
+            salvo no seu navegador.
+          </span>
         </footer>
       </div>
     </main>

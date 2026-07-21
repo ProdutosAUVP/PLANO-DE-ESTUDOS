@@ -47,7 +47,11 @@ export function useProgress() {
     setProgress((p) => {
       const cur = p[id] ?? "nao-iniciado";
       const next: Status =
-        cur === "nao-iniciado" ? "em-andamento" : cur === "em-andamento" ? "feito" : "nao-iniciado";
+        cur === "nao-iniciado"
+          ? "em-andamento"
+          : cur === "em-andamento"
+            ? "feito"
+            : "nao-iniciado";
       return { ...p, [id]: next };
     });
   }, []);

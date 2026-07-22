@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 import type { Module } from "@/data/curriculum";
-import { durationToSeconds, formatSeconds } from "@/data/curriculum";
+import {
+  durationToSeconds,
+  formatSeconds,
+  getLessonUrl,
+} from "@/data/curriculum";
 import { getModuleIcon } from "@/lib/module-icons";
 import { StatusBadge } from "./StatusBadge";
 import { ProgressBar } from "./ProgressBar";
@@ -55,11 +59,11 @@ export function ModuleCard({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-start gap-4 p-5 text-left"
+        className="flex w-full items-start gap-3 p-4 text-left sm:gap-4 sm:p-5"
         aria-expanded={open}
       >
         <div
-          className={`flex size-12 shrink-0 items-center justify-center rounded-xl transition-colors duration-[240ms] ${
+          className={`flex size-10 shrink-0 items-center justify-center rounded-xl transition-colors duration-[240ms] sm:size-12 ${
             complete
               ? "bg-success/15 text-success"
               : "bg-accent/10 text-primary-emphasis"
@@ -117,23 +121,32 @@ export function ModuleCard({
             return (
               <li
                 key={l.id}
-                className="flex flex-wrap items-center gap-3 px-5 py-3 transition-colors duration-150 hover:bg-muted/50"
+                className="flex items-center gap-2 px-4 py-3 transition-colors duration-150 hover:bg-muted/50 sm:gap-3 sm:px-5"
               >
-                <span className="w-20 shrink-0 text-xs font-bold tracking-wider text-muted-foreground uppercase">
-                  {l.number}
-                </span>
-                <span
-                  className={`flex-1 text-sm transition-colors duration-[240ms] ${
-                    status === "feito"
-                      ? "text-muted-foreground line-through"
-                      : "text-foreground"
-                  }`}
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                    {l.number} · {l.duration}
+                  </div>
+                  <p
+                    className={`mt-0.5 text-sm leading-snug transition-colors duration-[240ms] ${
+                      status === "feito"
+                        ? "text-muted-foreground line-through"
+                        : "text-foreground"
+                    }`}
+                  >
+                    {l.title}
+                  </p>
+                </div>
+                <a
+                  href={getLessonUrl(l)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Abrir aula na plataforma"
+                  aria-label={`Abrir a aula "${l.title}" na plataforma`}
+                  className="shrink-0 rounded-full p-2 text-muted-foreground transition-all duration-[240ms] ease-out hover:bg-accent/10 hover:text-primary-emphasis active:scale-90"
                 >
-                  {l.title}
-                </span>
-                <span className="w-16 shrink-0 text-right font-mono text-xs text-muted-foreground">
-                  {l.duration}
-                </span>
+                  <ExternalLink className="h-4 w-4" />
+                </a>
                 <StatusBadge status={status} onClick={() => onCycle(l.id)} />
               </li>
             );

@@ -63,6 +63,10 @@ manter o lockfile em dia — o CI usa `bun install --frozen-lockfile`.
   módulos/aulas. IDs de aula são derivados de `módulo-número-título`; mudar um
   título muda o ID e **reseta o progresso daquela aula** para usuários
   existentes — evite renomear sem necessidade.
+- **Links das aulas**: `getLessonUrl()` em `curriculum.ts` gera o link direto
+  da aula na plataforma. **PLACEHOLDER** (`https://escola.auvp.com.br/aulas/<id>`)
+  até os links reais serem fornecidos — quando chegarem, atualize ali (ou
+  adicione um campo `url` por aula se não seguirem padrão).
 
 ## Design System (AUVP — tema Escola)
 
@@ -90,6 +94,11 @@ Regras que este app segue — mantenha-as em qualquer mudança visual:
 - **Utilitários próprios** em `styles.css`: `bg-brand-gradient` (gradiente
   dourado), `bg-spotlight` (halo do hero), `btn-cta`.
 - **Sem emojis na UI** — use ícones `lucide-react`.
+- **Mobile first**: estilos base miram telas pequenas; desktop entra via
+  `sm:`/`md:`/`lg:`. Ao criar componentes, comece pelo layout de 375px
+  (sem overflow horizontal; alvos de toque ≥ ~40px) e enriqueça para cima —
+  ex.: `StatusBadge` mostra só o ícone no mobile, a trilha de módulos rola
+  horizontalmente, o calendário esconde a duração nas células pequenas.
 - Padrões de componente vêm das seções da plataforma no DS (Dashboard do
   Aluno, Grade Curricular, Jornada do Herói, Progress Geist, Tags & Badges).
 

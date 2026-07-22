@@ -40,11 +40,13 @@ export function StatusBadge({
     <button
       type="button"
       onClick={onClick}
-      title="Clique para alternar o status"
-      className={`inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase transition-all duration-[240ms] ease-out hover:scale-[1.04] active:scale-95 ${classes}`}
+      title={`${label} — toque para alternar`}
+      aria-label={`Status: ${label}. Toque para alternar.`}
+      className={`inline-flex min-h-8 items-center gap-1.5 rounded-md border px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase transition-all duration-[240ms] ease-out hover:scale-[1.04] active:scale-95 ${classes}`}
     >
-      <Icon className="h-3 w-3" />
-      {label}
+      <Icon className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
+      {/* Mobile first: só o ícone; o rótulo entra a partir de sm */}
+      <span className="hidden sm:inline">{label}</span>
     </button>
   );
 }

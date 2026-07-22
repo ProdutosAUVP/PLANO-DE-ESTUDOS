@@ -204,7 +204,7 @@ export function Onboarding({
 
         <section
           key={step}
-          className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] duration-300 sm:p-8"
+          className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)] duration-300 sm:p-8"
         >
           {step === 0 && (
             <>
@@ -473,14 +473,14 @@ export function Onboarding({
             </>
           )}
 
-          {/* Navegação */}
-          <div className="mt-8 flex items-center justify-between gap-3">
-            <div>
+          {/* Navegação — mobile first: CTA em largura total no topo, voltar/pular abaixo */}
+          <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex justify-center sm:justify-start">
               {step > 0 ? (
                 <button
                   type="button"
                   onClick={() => setStep((s) => s - 1)}
-                  className="btn-cta inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-muted-foreground transition-all duration-[240ms] ease-out hover:text-foreground active:scale-95"
+                  className="btn-cta inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-5 py-2.5 text-muted-foreground transition-all duration-[240ms] ease-out hover:text-foreground active:scale-95 sm:w-auto"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   Voltar
@@ -490,7 +490,7 @@ export function Onboarding({
                   <button
                     type="button"
                     onClick={onSkip}
-                    className="text-xs text-muted-foreground underline-offset-4 transition-colors duration-150 hover:text-foreground hover:underline"
+                    className="p-2 text-xs text-muted-foreground underline-offset-4 transition-colors duration-150 hover:text-foreground hover:underline"
                   >
                     Pular por agora
                   </button>
@@ -502,7 +502,7 @@ export function Onboarding({
                 type="button"
                 onClick={() => canAdvance && setStep((s) => s + 1)}
                 disabled={!canAdvance}
-                className="btn-cta inline-flex items-center gap-2 rounded-full border border-primary bg-primary px-6 py-2.5 text-primary-foreground shadow-[var(--shadow-glow)] transition-all duration-[240ms] ease-out hover:brightness-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                className="btn-cta inline-flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-6 py-3 text-primary-foreground shadow-[var(--shadow-glow)] transition-all duration-[240ms] ease-out hover:brightness-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 sm:py-2.5"
               >
                 Continuar
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -511,7 +511,7 @@ export function Onboarding({
               <button
                 type="button"
                 onClick={finish}
-                className="btn-cta inline-flex items-center gap-2 rounded-full border border-primary bg-primary px-6 py-2.5 text-primary-foreground shadow-[var(--shadow-glow)] transition-all duration-[240ms] ease-out hover:brightness-105 active:scale-95"
+                className="btn-cta inline-flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-6 py-3 text-primary-foreground shadow-[var(--shadow-glow)] transition-all duration-[240ms] ease-out hover:brightness-105 active:scale-95 sm:py-2.5"
               >
                 <Check className="h-3.5 w-3.5" />
                 Começar minha jornada

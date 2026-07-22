@@ -3,11 +3,12 @@ import {
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
+  ExternalLink,
   RefreshCw,
   X,
 } from "lucide-react";
 import { buildSchedule } from "@/lib/schedule";
-import { formatSeconds, modules } from "@/data/curriculum";
+import { formatSeconds, getLessonUrl, modules } from "@/data/curriculum";
 import type { Status } from "@/lib/progress-store";
 import { StatusBadge } from "./StatusBadge";
 
@@ -89,13 +90,13 @@ export function StudyCalendar({
   }
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
+    <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
             Calendário
           </p>
-          <h2 className="font-display mt-1 text-2xl font-bold text-foreground">
+          <h2 className="font-display mt-1 text-xl font-bold text-foreground sm:text-2xl">
             Suas aulas, dia a dia
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
@@ -103,7 +104,7 @@ export function StudyCalendar({
             {new Date(endDateISO + "T00:00:00").toLocaleDateString("pt-BR")}.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-start">
           <button
             type="button"
             onClick={() => setCursor(new Date(year, month - 1, 1))}
@@ -173,7 +174,7 @@ export function StudyCalendar({
               }
               disabled={!hasLessons}
               className={[
-                "flex aspect-square flex-col rounded-lg border p-1.5 text-left transition-all duration-[240ms] ease-out",
+                "flex aspect-square flex-col rounded-md border p-1 text-left transition-all duration-[240ms] ease-out sm:rounded-lg sm:p-1.5",
                 isSelected
                   ? "border-primary bg-primary/10 shadow-[var(--shadow-glow)] ring-2 ring-primary/30"
                   : isOverdueDay
@@ -206,9 +207,14 @@ export function StudyCalendar({
                         : "text-primary-emphasis"
                     }`}
                   >
-                    {day.lessons.length} aula{day.lessons.length > 1 ? "s" : ""}
+                    {day.lessons.length}
+                    <span className="hidden sm:inline">
+                      {" "}
+                      aula{day.lessons.length > 1 ? "s" : ""}
+                    </span>
                   </div>
-                  <div className="text-[9px] text-muted-foreground">
+                  {/* Duração some no mobile — célula pequena demais */}
+                  <div className="hidden text-[9px] text-muted-foreground sm:block">
                     {formatSeconds(day.totalSeconds)}
                   </div>
                 </div>
@@ -276,14 +282,14 @@ export function StudyCalendar({
               return (
                 <li
                   key={l.id}
-                  className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 transition-colors duration-150 ${
+                  className={`flex items-center gap-2 rounded-lg border px-3 py-2 transition-colors duration-150 sm:gap-3 ${
                     wasMissed
                       ? "border-destructive/40 bg-destructive/5"
                       : "border-border bg-card"
                   }`}
                 >
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-medium text-foreground">
+                    <div className="text-sm leading-snug font-medium text-foreground">
                       {l.number} · {l.title}
                     </div>
                     <div className="text-xs text-muted-foreground">
@@ -295,6 +301,16 @@ export function StudyCalendar({
                       )}
                     </div>
                   </div>
+                  <a
+                    href={getLessonUrl(l)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Abrir aula na plataforma"
+                    aria-label={`Abrir a aula "${l.title}" na plataforma`}
+                    className="shrink-0 rounded-full p-2 text-muted-foreground transition-all duration-[240ms] ease-out hover:bg-accent/10 hover:text-primary-emphasis active:scale-90"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
                   <StatusBadge status={status} onClick={() => onCycle(l.id)} />
                 </li>
               );

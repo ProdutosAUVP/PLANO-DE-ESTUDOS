@@ -150,7 +150,7 @@ export function PlanHeader({
   return (
     <>
       {/* ============ Hero ============ */}
-      <section className="bg-spotlight relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
+      <section className="bg-spotlight relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
@@ -185,8 +185,8 @@ export function PlanHeader({
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col items-start gap-8 md:flex-row md:items-center">
-          <div className="min-w-0 flex-1">
+        <div className="mt-4 flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8">
+          <div className="min-w-0 w-full flex-1">
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
               {profile.name
                 ? `${greeting()}, ${profile.name}`
@@ -224,7 +224,8 @@ export function PlanHeader({
             {/* Jornada por módulos (DS: Jornada do Herói) — ícones por módulo,
                 bônus separados por uma linha fina e o rótulo "Bônus" */}
             <div className="mt-6 max-w-2xl">
-              <div className="flex items-center gap-1 select-none sm:gap-1.5">
+              {/* Rolagem horizontal no mobile; largura natural a partir de sm */}
+              <div className="-mx-4 flex items-center gap-1 overflow-x-auto px-4 pb-1 select-none sm:mx-0 sm:gap-1.5 sm:overflow-visible sm:px-0 sm:pb-0">
                 {modules
                   .filter((m) => m.index !== null)
                   .map((m, i) => (
@@ -262,12 +263,14 @@ export function PlanHeader({
                   ))}
               </div>
               <p className="mt-2 text-[11px] tracking-wider text-muted-foreground uppercase">
-                Clique em um ícone para ir ao módulo
+                Toque em um ícone para ir ao módulo
               </p>
             </div>
           </div>
 
-          <ProgressRing pct={pct} />
+          <div className="self-center md:self-auto">
+            <ProgressRing pct={pct} />
+          </div>
         </div>
       </section>
 
@@ -305,7 +308,7 @@ export function PlanHeader({
 
       {/* ============ Config + Atividade semanal ============ */}
       <div className="mt-4 grid gap-4 lg:grid-cols-[3fr_2fr]">
-        <section className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)] sm:p-6">
+        <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
           <h2 className="font-display text-lg font-bold text-foreground">
             Configure seu plano
           </h2>
@@ -427,7 +430,7 @@ export function PlanHeader({
           </p>
         </section>
 
-        <section className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)] sm:p-6">
+        <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <h2 className="font-display text-lg font-bold text-foreground">
               Atividade semanal

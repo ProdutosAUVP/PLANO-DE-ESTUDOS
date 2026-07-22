@@ -298,6 +298,18 @@ export const allLessons = modules.flatMap((m) =>
   m.lessons.map((l) => ({ ...l, moduleId: m.id })),
 );
 
+/**
+ * PLACEHOLDER — base dos links diretos para as aulas na plataforma.
+ * Quando os links reais forem fornecidos, atualize aqui (e/ou adicione um
+ * campo `url` por aula caso não sigam um padrão previsível).
+ */
+export const PLATFORM_URL = "https://escola.auvp.com.br";
+
+/** Link direto da aula na plataforma (placeholder até recebermos os reais). */
+export function getLessonUrl(lesson: Pick<Lesson, "id">): string {
+  return `${PLATFORM_URL}/aulas/${lesson.id}`;
+}
+
 export const totalSeconds = allLessons.reduce(
   (acc, l) => acc + durationToSeconds(l.duration),
   0,

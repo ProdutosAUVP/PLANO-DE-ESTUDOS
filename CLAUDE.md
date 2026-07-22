@@ -41,12 +41,22 @@ manter o lockfile em dia — o CI usa `bun install --frozen-lockfile`.
   `useTheme` + script anti-FOUC em `index.html`). Componentes de UI em
   `src/components/ui/` são shadcn/ui (Radix); prefira reutilizá-los.
 - **Estado do usuário**: hooks `useProgress` e `useMeta` em
-  `src/lib/progress-store.ts`. Chaves de `localStorage`: `auvp-progress-v1`,
-  `auvp-meta-v1`, `auvp-activity-v1` (aulas concluídas por dia — alimenta
-  streak e gráfico semanal) e `auvp-theme-v1` (tema claro/escuro). Ao mudar o
-  formato persistido, **versione a chave** (ex. `-v2`) para não quebrar dados
-  salvos dos usuários. A atividade é derivada das mudanças de progresso em um
-  `useEffect` (não dentro de updaters) para ser idempotente sob o StrictMode.
+  `src/lib/progress-store.ts` e `useProfile` em `src/lib/profile-store.ts`.
+  Chaves de `localStorage`: `auvp-progress-v1`, `auvp-meta-v1`,
+  `auvp-activity-v1` (aulas concluídas por dia — alimenta streak e gráfico
+  semanal), `auvp-theme-v1` (tema claro/escuro) e `auvp-profile-v1` (perfil do
+  onboarding: nome, minutos/dia, ritmo, período, hábitos, flag `onboarded`).
+  Ao mudar o formato persistido, **versione a chave** (ex. `-v2`) para não
+  quebrar dados salvos dos usuários. A atividade é derivada das mudanças de
+  progresso em um `useEffect` (não dentro de updaters) para ser idempotente
+  sob o StrictMode.
+- **Onboarding**: `src/components/Onboarding.tsx` — wizard de 4 passos
+  exibido quando `profile.onboarded` é falso (ou ao clicar em Personalizar/
+  Editar no hero). Coleta tempo disponível e jeito de estudar,
+  `recommendPlan()` (em `profile-store.ts`) converte minutos/dia × dias/semana
+  em um plano sugerido e o aplica no `meta`. O dashboard usa o perfil para
+  saudação com nome, chips de perfil, dica personalizada e aviso quando o
+  ritmo exigido pelo plano excede o tempo disponível.
 - **Cronograma**: `src/lib/schedule.ts` (`buildSchedule`) distribui as aulas
   pelos dias de estudo e reagenda atrasos. É lógica pura e testável.
 - **Conteúdo da grade**: `src/data/curriculum.ts` é a fonte da verdade de

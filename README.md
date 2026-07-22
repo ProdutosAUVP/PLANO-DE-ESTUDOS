@@ -9,6 +9,12 @@ back-end, banco de dados nem login.
 
 ## ✨ Funcionalidades
 
+- **Onboarding personalizado** — no primeiro acesso, o aluno informa o tempo
+  disponível (dias e minutos por dia) e suas maneiras favoritas de estudar; o
+  app recomenda e aplica o plano ideal automaticamente.
+- **Experiência personalizável** — saudação com nome, dicas adaptadas ao
+  ritmo escolhido e alerta quando o plano exige mais tempo do que o
+  disponível. Tudo editável a qualquer momento pelo botão Personalizar.
 - **Grade completa de módulos e aulas** com duração de cada aula e total por
   módulo.
 - **Acompanhamento de progresso** com três estados por aula: _Não iniciado →

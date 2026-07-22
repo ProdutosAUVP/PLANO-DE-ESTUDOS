@@ -1,37 +1,11 @@
 import { useMemo, useState } from "react";
-import {
-  BarChart3,
-  Brain,
-  ChevronDown,
-  Gem,
-  Globe,
-  GraduationCap,
-  PiggyBank,
-  Receipt,
-  Rocket,
-  Sparkles,
-  TrendingUp,
-  Wallet,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type { Module } from "@/data/curriculum";
 import { durationToSeconds, formatSeconds } from "@/data/curriculum";
+import { getModuleIcon } from "@/lib/module-icons";
 import { StatusBadge } from "./StatusBadge";
 import { ProgressBar } from "./ProgressBar";
 import type { Status } from "@/lib/progress-store";
-
-/** Ícone por módulo (DS: Grade Curricular — tile bg-accent/10 + ícone lucide). */
-const MODULE_ICONS: Record<string, typeof Brain> = {
-  m1: Brain,
-  m2: Wallet,
-  m3: PiggyBank,
-  m4: TrendingUp,
-  m5: Gem,
-  m6: Globe,
-  m7: Rocket,
-  "bonus-ir": Receipt,
-  "bonus-indicadores": BarChart3,
-  "bonus-masterclasses": GraduationCap,
-};
 
 export function ModuleCard({
   module,
@@ -67,15 +41,16 @@ export function ModuleCard({
     };
   }, [module, progress]);
 
-  const Icon = MODULE_ICONS[module.id] ?? Sparkles;
+  const Icon = getModuleIcon(module.id);
   const complete = stats.done === stats.total && stats.total > 0;
 
   return (
     <article
       id={`module-${module.id}`}
-      className={`scroll-mt-4 overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] ${
-        complete ? "border-success/40" : "border-border hover:border-primary/40"
-      }`}
+      className={`scroll-mt-4 overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out ${
+        // Fechado: hover com elevação; expandido: sem nenhum efeito de hover.
+        open ? "" : "hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
+      } ${complete ? "border-success/40" : `border-border ${open ? "" : "hover:border-primary/40"}`}`}
     >
       <button
         type="button"

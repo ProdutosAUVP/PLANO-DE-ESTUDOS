@@ -1,4 +1,12 @@
-import { Clock, Flame, Gauge, PlayCircle } from "lucide-react";
+import {
+  CalendarDays,
+  Clock,
+  Flame,
+  Gauge,
+  PlayCircle,
+  SlidersHorizontal,
+  Timer,
+} from "lucide-react";
 import {
   modules,
   allLessons,
@@ -8,9 +16,20 @@ import {
 } from "@/data/curriculum";
 import { computeStreak, lastSevenDays } from "@/lib/progress-store";
 import type { ActivityMap, Status } from "@/lib/progress-store";
+import { PERIOD_LABELS, STYLE_LABELS, STYLE_TIPS } from "@/lib/profile-store";
+import type { Profile } from "@/lib/profile-store";
+import { getModuleIcon } from "@/lib/module-icons";
 import { useCountUp } from "@/hooks/use-count-up";
 import { ProgressRing } from "./ProgressRing";
 import { ThemeToggle } from "./ThemeToggle";
+import logoHorizontal from "@/assets/logos/auvp-escola-horizontal-amarelo.svg";
+
+function greeting(): string {
+  const h = new Date().getHours();
+  if (h >= 5 && h < 12) return "Bom dia";
+  if (h >= 12 && h < 18) return "Boa tarde";
+  return "Boa noite";
+}
 
 const PLAN_WEEKS: Record<string, number> = {
   "1m": 4,
@@ -54,12 +73,16 @@ export function PlanHeader({
   meta,
   setMeta,
   onReset,
+  profile,
+  onEditProfile,
 }: {
   progress: Record<string, Status>;
   activity: ActivityMap;
   meta: Meta;
   setMeta: (m: Meta) => void;
   onReset: () => void;
+  profile: Profile;
+  onEditProfile: () => void;
 }) {
   const doneLessons = allLessons.filter((l) => progress[l.id] === "feito");
   const doneSec = doneLessons.reduce(
@@ -129,11 +152,27 @@ export function PlanHeader({
       {/* ============ Hero ============ */}
       <section className="bg-spotlight relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <p className="text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
-            AUVP Escola · Plano de Estudos
-          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src={logoHorizontal}
+              alt="AUVP Escola"
+              className="h-8 w-auto"
+            />
+            <span className="border-l border-border pl-3 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase">
+              Plano de Estudos
+            </span>
+          </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            <button
+              type="button"
+              onClick={onEditProfile}
+              title="Personalizar experiência"
+              aria-label="Personalizar experiência"
+              className="rounded-full border border-border bg-card p-2.5 text-muted-foreground transition-all duration-[240ms] ease-out hover:border-primary/50 hover:text-foreground hover:shadow-sm active:scale-95"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+            </button>
             <button
               type="button"
               onClick={() => {
@@ -149,57 +188,81 @@ export function PlanHeader({
         <div className="mt-4 flex flex-col items-start gap-8 md:flex-row md:items-center">
           <div className="min-w-0 flex-1">
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              Acompanhe sua jornada de investidor
+              {profile.name
+                ? `${greeting()}, ${profile.name}`
+                : "Acompanhe sua jornada de investidor"}
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Toda a grade da AUVP Escola — {modules.length} módulos e mais de
-              100 aulas — com seu ritmo, seu calendário e seu progresso em um só
-              lugar.
+              {profile.name
+                ? `Sua jornada de investidor continua: ${modules.length} módulos da AUVP Escola no seu ritmo, no seu calendário.`
+                : `Toda a grade da AUVP Escola — ${modules.length} módulos e mais de 100 aulas — com seu ritmo, seu calendário e seu progresso em um só lugar.`}
             </p>
 
-            {/* Jornada por módulos (DS: Jornada do Herói) */}
-            <div className="mt-6 max-w-xl">
-              <div className="relative flex h-8 items-center justify-between select-none">
-                <div className="absolute top-1/2 right-[10px] left-[10px] h-[3px] -translate-y-1/2">
-                  <div className="absolute inset-0 rounded-full bg-muted-foreground/15" />
-                  <div
-                    className="bg-brand-gradient absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                {modules.map((m) => {
-                  const total = m.lessons.length;
-                  const done = m.lessons.filter(
-                    (l) => progress[l.id] === "feito",
-                  ).length;
-                  const isComplete = done === total;
-                  const started = done > 0;
-                  return (
-                    <button
+            {/* Perfil de estudo (definido no onboarding) */}
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <ProfileChip icon={<Clock className="h-3 w-3" />}>
+                {profile.minutesPerDay} min/dia
+              </ProfileChip>
+              <ProfileChip icon={<CalendarDays className="h-3 w-3" />}>
+                {daysPerWeek} dia{daysPerWeek !== 1 ? "s" : ""}/semana
+              </ProfileChip>
+              <ProfileChip icon={<Timer className="h-3 w-3" />}>
+                {STYLE_LABELS[profile.style]}
+              </ProfileChip>
+              <ProfileChip icon={<Flame className="h-3 w-3" />}>
+                {PERIOD_LABELS[profile.period]}
+              </ProfileChip>
+              <button
+                type="button"
+                onClick={onEditProfile}
+                className="text-[11px] font-bold tracking-wider text-primary-emphasis uppercase underline-offset-4 transition-colors duration-150 hover:underline"
+              >
+                Editar
+              </button>
+            </div>
+
+            {/* Jornada por módulos (DS: Jornada do Herói) — ícones por módulo,
+                bônus separados por uma linha fina e o rótulo "Bônus" */}
+            <div className="mt-6 max-w-2xl">
+              <div className="flex items-center gap-1 select-none sm:gap-1.5">
+                {modules
+                  .filter((m) => m.index !== null)
+                  .map((m, i) => (
+                    <span
                       key={m.id}
-                      type="button"
-                      onClick={() => scrollToModule(m.id)}
-                      title={`${m.title} — ${done}/${total} aulas`}
-                      className={`relative z-10 size-5 rounded-full border-2 bg-background transition-all duration-300 hover:scale-125 ${
-                        isComplete
-                          ? "border-primary"
-                          : started
-                            ? "border-secondary"
-                            : "border-muted-foreground/40"
-                      }`}
+                      className="flex min-w-0 items-center gap-1 sm:gap-1.5"
                     >
-                      {isComplete && (
-                        <span className="absolute top-1/2 left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary" />
-                      )}
-                      {!isComplete && started && (
-                        <span className="absolute top-1/2 left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary/50" />
-                      )}
-                    </button>
-                  );
-                })}
+                      {i > 0 && <JourneyConnector />}
+                      <JourneyDot
+                        module={m}
+                        progress={progress}
+                        onClick={() => scrollToModule(m.id)}
+                      />
+                    </span>
+                  ))}
+                <span className="mx-1.5 h-6 w-px shrink-0 bg-border sm:mx-2" />
+                <span className="shrink-0 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                  Bônus
+                </span>
+                <span className="mx-1.5 h-6 w-px shrink-0 bg-border sm:mx-2" />
+                {modules
+                  .filter((m) => m.index === null)
+                  .map((m, i) => (
+                    <span
+                      key={m.id}
+                      className="flex min-w-0 items-center gap-1 sm:gap-1.5"
+                    >
+                      {i > 0 && <JourneyConnector />}
+                      <JourneyDot
+                        module={m}
+                        progress={progress}
+                        onClick={() => scrollToModule(m.id)}
+                      />
+                    </span>
+                  ))}
               </div>
               <p className="mt-2 text-[11px] tracking-wider text-muted-foreground uppercase">
-                Clique em um ponto para ir ao módulo
+                Clique em um ícone para ir ao módulo
               </p>
             </div>
           </div>
@@ -346,6 +409,15 @@ export function PlanHeader({
             </div>
           </div>
 
+          {dailyMinutes > profile.minutesPerDay && (
+            <div className="mt-4 rounded-lg border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-foreground">
+              O plano atual pede <strong>{dailyMinutes} min</strong> por dia de
+              estudo, acima dos <strong>{profile.minutesPerDay} min</strong> que
+              você informou ter. Considere um plano mais longo, mais dias de
+              estudo, ou atualize seu perfil.
+            </div>
+          )}
+
           <p className="mt-4 text-xs text-muted-foreground">
             Carga total:{" "}
             <strong className="text-foreground">
@@ -400,12 +472,64 @@ export function PlanHeader({
             })}
           </div>
           <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-            Cada barra mostra as aulas concluídas no dia. Manter a constância
-            vale mais do que maratonar.
+            {STYLE_TIPS[profile.style]}
           </p>
         </section>
       </div>
     </>
+  );
+}
+
+function JourneyConnector() {
+  return (
+    <span className="h-px w-1.5 shrink-0 bg-border sm:w-2.5" aria-hidden />
+  );
+}
+
+function JourneyDot({
+  module: m,
+  progress,
+  onClick,
+}: {
+  module: (typeof modules)[number];
+  progress: Record<string, Status>;
+  onClick: () => void;
+}) {
+  const Icon = getModuleIcon(m.id);
+  const total = m.lessons.length;
+  const done = m.lessons.filter((l) => progress[l.id] === "feito").length;
+  const isComplete = done === total && total > 0;
+  const started = done > 0;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={`${m.title} — ${done}/${total} aulas`}
+      className={`flex size-7 shrink-0 items-center justify-center rounded-full border transition-all duration-[240ms] ease-out hover:scale-110 sm:size-8 ${
+        isComplete
+          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+          : started
+            ? "border-primary/60 bg-primary/10 text-primary-emphasis"
+            : "border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
+      }`}
+    >
+      <Icon className="h-3.5 w-3.5" />
+    </button>
+  );
+}
+
+function ProfileChip({
+  icon,
+  children,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
+      <span className="text-primary-emphasis">{icon}</span>
+      {children}
+    </span>
   );
 }
 

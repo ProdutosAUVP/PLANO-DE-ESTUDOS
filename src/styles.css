@@ -208,6 +208,26 @@
     font-family: var(--font-display);
     letter-spacing: -0.01em;
   }
+
+  /* A11y: anel de foco visível e consistente (dourado do tema) em todos os
+     controles, apenas para navegação por teclado */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* A11y: respeita usuários que preferem menos movimento */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @utility bg-brand-gradient {

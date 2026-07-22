@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 
 /**
  * Anel de progresso do DS (Dashboard do Aluno): SVG com stroke-dashoffset
- * animado em 1.5s ease-out a partir do zero.
+ * animado em 1.5s ease-out a partir do zero. Abaixo de 100px o anel entra
+ * em modo compacto (percentual menor, sem rótulo interno).
  */
 export function ProgressRing({
   pct,
@@ -16,6 +17,7 @@ export function ProgressRing({
   const radius = 52;
   const circumference = 2 * Math.PI * radius;
   const [mounted, setMounted] = useState(false);
+  const compact = size < 100;
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => setMounted(true));
@@ -52,12 +54,18 @@ export function ProgressRing({
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-3xl leading-none font-bold text-foreground">
+        <span
+          className={`font-display leading-none font-bold text-foreground ${
+            compact ? "text-base" : "text-3xl"
+          }`}
+        >
           {Math.round(pct)}%
         </span>
-        <span className="mt-1 text-[10px] tracking-wider text-muted-foreground uppercase">
-          {label}
-        </span>
+        {!compact && (
+          <span className="mt-1 text-[10px] tracking-wider text-muted-foreground uppercase">
+            {label}
+          </span>
+        )}
       </div>
     </div>
   );

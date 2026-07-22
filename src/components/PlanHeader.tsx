@@ -3,6 +3,7 @@ import {
   Clock,
   Flame,
   Gauge,
+  Play,
   PlayCircle,
   SlidersHorizontal,
   Timer,
@@ -13,8 +14,9 @@ import {
   totalSeconds,
   formatSeconds,
   durationToSeconds,
+  getLessonUrl,
 } from "@/data/curriculum";
-import { computeStreak, lastSevenDays } from "@/lib/progress-store";
+import { computeWeekStreak, lastSevenDays } from "@/lib/progress-store";
 import type { ActivityMap, Status } from "@/lib/progress-store";
 import { PERIOD_LABELS, STYLE_LABELS, STYLE_TIPS } from "@/lib/profile-store";
 import type { Profile } from "@/lib/profile-store";
@@ -125,8 +127,13 @@ export function PlanHeader({
       : 0;
   const end = endDate ? endDate.toLocaleDateString("pt-BR") : "—";
 
-  const streak = computeStreak(activity, meta.studyDays);
+  const weekStreak = computeWeekStreak(activity);
   const week = lastSevenDays(activity);
+  // Próxima aula não concluída, na ordem da grade (para "continue de onde parou")
+  const nextLesson = allLessons.find((l) => progress[l.id] !== "feito");
+  const nextLessonModule = nextLesson
+    ? modules.find((m) => m.id === nextLesson.moduleId)
+    : undefined;
   const doneThisWeek = week.reduce((a, d) => a + d.count, 0);
   const maxWeekCount = Math.max(1, ...week.map((d) => d.count));
 
@@ -158,7 +165,7 @@ export function PlanHeader({
               alt="AUVP Escola"
               className="h-8 w-auto"
             />
-            <span className="border-l border-border pl-3 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase">
+            <span className="hidden border-l border-border pl-3 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase sm:inline">
               Plano de Estudos
             </span>
           </div>
@@ -221,11 +228,50 @@ export function PlanHeader({
               </button>
             </div>
 
-            {/* Jornada por módulos (DS: Jornada do Herói) — ícones por módulo,
-                bônus separados por uma linha fina e o rótulo "Bônus" */}
-            <div className="mt-6 max-w-2xl">
-              {/* Rolagem horizontal no mobile; largura natural a partir de sm */}
-              <div className="-mx-4 flex items-center gap-1 overflow-x-auto px-4 pb-1 select-none sm:mx-0 sm:gap-1.5 sm:overflow-visible sm:px-0 sm:pb-0">
+            {/* ===== Mobile: resumo de progresso + continue de onde parou ===== */}
+            <div className="mt-5 space-y-3 md:hidden">
+              <div className="flex items-center gap-4 rounded-xl border border-border bg-background/60 p-3">
+                <ProgressRing pct={pct} size={72} />
+                <div className="min-w-0 flex-1">
+                  <p className="font-display text-base leading-tight font-bold text-foreground">
+                    {doneLessons.length} de {allLessons.length} aulas
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {endDate
+                      ? `Conclusão prevista: ${end}`
+                      : "Defina um plano para ver a previsão"}
+                  </p>
+                </div>
+              </div>
+              {nextLesson && nextLessonModule && (
+                <a
+                  href={getLessonUrl(nextLesson)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/5 p-3 transition-all duration-[240ms] ease-out active:scale-[0.99]"
+                >
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                    <Play className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[10px] font-bold tracking-wider text-primary-emphasis uppercase">
+                      Continue de onde parou
+                    </span>
+                    <span className="mt-0.5 block truncate text-sm font-medium text-foreground">
+                      {nextLesson.number} · {nextLesson.title}
+                    </span>
+                    <span className="block truncate text-xs text-muted-foreground">
+                      {nextLessonModule.title} · {nextLesson.duration}
+                    </span>
+                  </span>
+                </a>
+              )}
+            </div>
+
+            {/* Jornada por módulos (DS: Jornada do Herói) — apenas em telas
+                médias+; no mobile o atalho é o "continue de onde parou" */}
+            <div className="mt-6 hidden max-w-2xl md:block">
+              <div className="flex items-center gap-1 select-none sm:gap-1.5">
                 {modules
                   .filter((m) => m.index !== null)
                   .map((m, i) => (
@@ -263,12 +309,13 @@ export function PlanHeader({
                   ))}
               </div>
               <p className="mt-2 text-[11px] tracking-wider text-muted-foreground uppercase">
-                Toque em um ícone para ir ao módulo
+                Clique em um ícone para ir ao módulo
               </p>
             </div>
           </div>
 
-          <div className="self-center md:self-auto">
+          {/* Anel grande apenas no desktop; no mobile o resumo compacto assume */}
+          <div className="hidden md:block">
             <ProgressRing pct={pct} />
           </div>
         </div>
@@ -300,8 +347,8 @@ export function PlanHeader({
         <StatCard
           icon={<Flame className="h-5 w-5" />}
           label="Sequência de estudos"
-          value={`${streak} dia${streak !== 1 ? "s" : ""}`}
-          badge={streak >= 3 ? "Em chamas" : null}
+          value={`${weekStreak} semana${weekStreak !== 1 ? "s" : ""}`}
+          badge={weekStreak >= 2 ? "Em chamas" : null}
           tone="warning"
         />
       </div>
@@ -430,7 +477,9 @@ export function PlanHeader({
           </p>
         </section>
 
-        <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
+        {/* flex-col: o gráfico (flex-1) estica até ocupar toda a altura
+            disponível do card, alinhado ao card de configuração ao lado */}
+        <section className="flex flex-col rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <h2 className="font-display text-lg font-bold text-foreground">
               Atividade semanal
@@ -439,7 +488,7 @@ export function PlanHeader({
               {doneThisWeek} aula{doneThisWeek !== 1 ? "s" : ""}
             </span>
           </div>
-          <div className="mt-5 flex h-36 items-end gap-2">
+          <div className="mt-5 flex min-h-36 flex-1 items-end gap-2">
             {week.map((d) => {
               const date = new Date(d.dateISO + "T00:00:00");
               const isToday = d.dateISO === todayISO;

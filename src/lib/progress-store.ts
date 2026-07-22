@@ -112,29 +112,36 @@ export function useProgress() {
 }
 
 /**
- * Sequência de dias de estudo com pelo menos uma aula concluída.
- * Dias fora dos `studyDays` configurados não quebram a sequência;
- * o dia de hoje sem atividade também não quebra (ainda dá tempo).
+ * Sequência de SEMANAS com pelo menos uma aula concluída (semana iniciando
+ * no domingo, como no calendário). A semana atual conta se já teve
+ * atividade; sem atividade ainda, ela não quebra a sequência — as
+ * anteriores é que precisam ser consecutivas.
  */
-export function computeStreak(
-  activity: ActivityMap,
-  studyDays?: number[],
-): number {
-  const days = studyDays && studyDays.length > 0 ? new Set(studyDays) : null;
-  const today = todayISO();
-  let streak = 0;
-  const cursor = new Date(today + "T00:00:00");
-  for (let i = 0; i < 366; i++) {
-    const iso = cursor.toISOString().slice(0, 10);
-    const active = (activity[iso] ?? 0) > 0;
-    if (active) {
-      streak++;
-    } else if (iso === today || (days && !days.has(cursor.getDay()))) {
-      // hoje ainda em aberto / dia de descanso: não quebra
-    } else {
-      break;
+export function computeWeekStreak(activity: ActivityMap): number {
+  const today = new Date(todayISO() + "T00:00:00");
+  // Volta ao domingo da semana atual
+  const weekStart = new Date(today);
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+
+  const weekHasActivity = (start: Date): boolean => {
+    const d = new Date(start);
+    for (let i = 0; i < 7; i++) {
+      const iso = d.toISOString().slice(0, 10);
+      if ((activity[iso] ?? 0) > 0) return true;
+      d.setDate(d.getDate() + 1);
     }
-    cursor.setDate(cursor.getDate() - 1);
+    return false;
+  };
+
+  let streak = 0;
+  const cursor = new Date(weekStart);
+  // Semana atual: soma se ativa, mas não quebra se ainda vazia
+  if (weekHasActivity(cursor)) streak++;
+  cursor.setDate(cursor.getDate() - 7);
+  for (let i = 0; i < 105; i++) {
+    if (!weekHasActivity(cursor)) break;
+    streak++;
+    cursor.setDate(cursor.getDate() - 7);
   }
   return streak;
 }

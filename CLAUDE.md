@@ -93,12 +93,13 @@ Regras que este app segue — mantenha-as em qualquer mudança visual:
   (`--font-sans`) para corpo/labels; **Sora é exclusiva para botões** — use o
   utilitário `.btn-cta` (Sora Bold 13px uppercase tracking-wider).
 - **Cards (padrão do dashboard Capital)**: página em cinza-claro
-  (`--background: hsl(120 8% 97%)`) com cards **brancos** (`--card`) quase
-  planos — borda 1px clara (`border-border`), sombra sutil (`--shadow-card`,
-  uma camada só) e cantos de container em `rounded-2xl` (≈16px com
-  `--radius: 0.5rem`); superfícies aninhadas usam `rounded-xl` (≈12px).
-  Títulos de seção (h1/h2) em `text-primary-emphasis` (verde), como no
-  dashboard. O header usa `bg-card` (branco/preto) para se destacar do fundo.
+  (`--background: hsl(120 8% 97%)`) com cards **brancos sólidos** (`--card`;
+  nunca combine `bg-spotlight` com `bg-card` — o shorthand `background` anula
+  o `background-color` e deixa o card translúcido) quase planos — borda 1px
+  clara (`border-border`), sombra sutil (`--shadow-card`, uma camada só) e
+  cantos em `rounded-xl` (12px com `--radius: 0.5rem`). Títulos de seção
+  (h1/h2) em `text-primary-emphasis` (verde), como no dashboard. O header usa
+  `bg-card` (branco/preto) para se destacar do fundo.
 - **Header/Footer do ecossistema**: `SiteHeader` (barra branca/preta de
   largura total, sticky, borda inferior, logo à esquerda e ações à direita) e
   `SiteFooter` (faixa verde profundo `--footer` com copyright), replicando o
@@ -108,7 +109,8 @@ Regras que este app segue — mantenha-as em qualquer mudança visual:
   barras de progresso `700ms`; anel de progresso `1.5s ease-out`. Entradas com
   `animate-in fade-in slide-in-*` (tw-animate-css).
 - **Utilitários próprios** em `styles.css`: `bg-brand-gradient` (gradiente
-  verde), `bg-spotlight` (halo do hero), `btn-cta`.
+  verde), `bg-spotlight` (halo de fundo de página — usado no onboarding;
+  não aplicar em cards), `btn-cta`.
 - **Sem emojis na UI** — use ícones `lucide-react`.
 - **Mobile first**: estilos base miram telas pequenas; desktop entra via
   `sm:`/`md:`/`lg:`. Ao criar componentes, comece pelo layout de 375px

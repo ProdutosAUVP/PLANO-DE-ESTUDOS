@@ -24,7 +24,8 @@ import { getModuleIcon } from "@/lib/module-icons";
 import { useCountUp } from "@/hooks/use-count-up";
 import { ProgressRing } from "./ProgressRing";
 import { ThemeToggle } from "./ThemeToggle";
-import logoHorizontal from "@/assets/logos/auvp-escola-horizontal-amarelo.svg";
+import logoHorizontalDark from "@/assets/logos/auvp-escola-horizontal-preto.svg";
+import logoHorizontalLight from "@/assets/logos/auvp-escola-horizontal-branco.svg";
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -161,9 +162,14 @@ export function PlanHeader({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
-              src={logoHorizontal}
+              src={logoHorizontalDark}
               alt="AUVP Escola"
-              className="h-8 w-auto"
+              className="h-8 w-auto dark:hidden"
+            />
+            <img
+              src={logoHorizontalLight}
+              alt="AUVP Escola"
+              className="hidden h-8 w-auto dark:block"
             />
             <span className="hidden border-l border-border pl-3 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase sm:inline">
               Plano de Estudos

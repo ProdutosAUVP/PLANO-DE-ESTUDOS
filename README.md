@@ -35,7 +35,7 @@ back-end, banco de dados nem login.
 
 A identidade visual segue o
 [AUVP Design System](https://produtosauvp.github.io/central/design-system),
-tema **Escola (dourado)**: tokens de cor HSL oficiais (claro e escuro),
+tema **Capital (verde)**: tokens de cor HSL oficiais (claro e escuro),
 tipografia Anek Latin / Roboto / Sora (exclusiva para botões) e motion padrão
 de 240ms. As convenções completas estão documentadas em
 [`CLAUDE.md`](CLAUDE.md).

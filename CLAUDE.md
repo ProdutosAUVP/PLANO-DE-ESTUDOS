@@ -68,22 +68,27 @@ manter o lockfile em dia — o CI usa `bun install --frozen-lockfile`.
   até os links reais serem fornecidos — quando chegarem, atualize ali (ou
   adicione um campo `url` por aula se não seguirem padrão).
 
-## Design System (AUVP — tema Escola)
+## Design System (AUVP — tema Capital)
 
-A identidade visual segue o **AUVP Design System**, tema **Escola (dourado)**:
+A identidade visual segue o **AUVP Design System**, tema **Capital (verde)**:
 https://produtosauvp.github.io/central/design-system (fonte dos tokens:
-repositório `ProdutosAUVP/central`, `src/index.css`, blocos `.escola` e
-`.dark.escola`).
+repositório `ProdutosAUVP/central`, `src/index.css`, tema Capital — `:root`
+claro e `.dark` escuro).
 
 Regras que este app segue — mantenha-as em qualquer mudança visual:
 
-- **Cores em HSL**, copiadas dos tokens oficiais. Claro: dourado
-  `hsl(42 84% 63%)` como `--primary` com texto escuro; escuro: fundo preto com
-  dourado `hsl(42 90% 65%)`. Status semânticos da Escola usam **âmbar como
-  success** (não verde).
-- **Contraste**: o dourado puro NÃO passa AA como texto sobre branco. Para
-  texto/ícone dourado use `text-primary-emphasis` (`hsl(40 90% 29%)` no claro;
-  igual ao primary no escuro). Nunca `text-primary` sobre `--background` claro.
+- **Cores em HSL**, copiadas dos tokens oficiais. Claro: verde profundo
+  `hsl(155 93% 11%)` como `--primary` com texto branco; escuro: fundo preto,
+  `--primary` quase-branco `hsl(0 0% 98%)` e verde sálvia `hsl(145 20% 44%)`
+  como `--accent`/`--brand`. Status semânticos do Capital usam **verde como
+  success**.
+- **Contraste**: o verde profundo do `--primary` (claro) já passa AA como
+  texto sobre branco, então no claro `text-primary-emphasis == text-primary`.
+  Continue usando `text-primary-emphasis` para texto/ícone de destaque — no
+  escuro ele mapeia para o quase-branco do `--primary`.
+- **Logo**: use a marca AUVP Escola em **preto/branco conforme o tema**
+  (`auvp-escola-*-preto.svg` no claro, `-branco.svg` no escuro) — **nunca a
+  versão amarela**, que pertence à identidade Escola e destoa do verde Capital.
 - **Tipografia**: `font-display` (Anek Latin) para títulos; Roboto
   (`--font-sans`) para corpo/labels; **Sora é exclusiva para botões** — use o
   utilitário `.btn-cta` (Sora Bold 13px uppercase tracking-wider).
@@ -92,7 +97,7 @@ Regras que este app segue — mantenha-as em qualquer mudança visual:
   barras de progresso `700ms`; anel de progresso `1.5s ease-out`. Entradas com
   `animate-in fade-in slide-in-*` (tw-animate-css).
 - **Utilitários próprios** em `styles.css`: `bg-brand-gradient` (gradiente
-  dourado), `bg-spotlight` (halo do hero), `btn-cta`.
+  verde), `bg-spotlight` (halo do hero), `btn-cta`.
 - **Sem emojis na UI** — use ícones `lucide-react`.
 - **Mobile first**: estilos base miram telas pequenas; desktop entra via
   `sm:`/`md:`/`lg:`. Ao criar componentes, comece pelo layout de 375px

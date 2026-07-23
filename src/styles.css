@@ -150,7 +150,10 @@
   --popover-foreground: hsl(0 0% 98%);
   --primary: hsl(0 0% 98%);
   --primary-foreground: hsl(0 0% 8%);
-  --primary-emphasis: hsl(0 0% 98%);
+  /* No escuro os botões preenchidos usam o quase-branco do --primary, mas os
+     destaques de texto/ícone usam o verde jade (mesmo tom de --accent/--brand)
+     para reforçar a identidade Capital. */
+  --primary-emphasis: hsl(145 20% 44%);
   --secondary: hsl(0 0% 12%);
   --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(0 0% 10%);

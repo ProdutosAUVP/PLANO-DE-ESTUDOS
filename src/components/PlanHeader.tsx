@@ -510,8 +510,8 @@ export function PlanHeader({
                     <div
                       className={`w-full rounded-t-md transition-all duration-700 ease-out ${
                         isToday
-                          ? "bg-primary"
-                          : "bg-primary/60 group-hover:bg-primary/80"
+                          ? "bg-brand"
+                          : "bg-brand/60 group-hover:bg-brand/80"
                       }`}
                       style={{ height: `${h}%` }}
                     />

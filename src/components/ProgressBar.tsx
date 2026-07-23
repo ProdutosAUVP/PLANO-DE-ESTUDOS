@@ -30,7 +30,7 @@ export function ProgressBar({
       >
         <div
           className={`h-full rounded-full transition-all duration-700 ease-out ${
-            complete ? "bg-success" : "bg-primary"
+            complete ? "bg-success" : "bg-brand"
           }`}
           style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
         />

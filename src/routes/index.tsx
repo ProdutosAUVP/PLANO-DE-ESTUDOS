@@ -7,8 +7,8 @@ import { ModuleCard } from "@/components/ModuleCard";
 import { PlanHeader } from "@/components/PlanHeader";
 import { StudyCalendar } from "@/components/StudyCalendar";
 import { Onboarding } from "@/components/Onboarding";
-import logoHorizontalDark from "@/assets/logos/auvp-escola-horizontal-preto.svg";
-import logoHorizontalLight from "@/assets/logos/auvp-escola-horizontal-branco.svg";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -45,14 +45,17 @@ function Index() {
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10 lg:py-12">
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader
+        onEditProfile={() => setEditingProfile(true)}
+        onReset={reset}
+      />
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
         <PlanHeader
           progress={progress}
           activity={activity}
           meta={meta}
           setMeta={setMeta}
-          onReset={reset}
           profile={profile}
           onEditProfile={() => setEditingProfile(true)}
         />
@@ -64,7 +67,7 @@ function Index() {
           />
         </div>
         <div className="mt-8">
-          <h2 className="font-display px-1 text-2xl font-bold text-foreground">
+          <h2 className="font-display px-1 text-2xl font-bold text-primary-emphasis">
             Grade curricular
           </h2>
           <p className="mt-1 px-1 text-sm text-muted-foreground">
@@ -104,23 +107,8 @@ function Index() {
               ))}
           </div>
         </div>
-        <footer className="mt-10 flex flex-col items-center gap-3 text-center text-xs text-muted-foreground">
-          <img
-            src={logoHorizontalDark}
-            alt="AUVP Escola"
-            className="h-6 w-auto opacity-80 dark:hidden"
-          />
-          <img
-            src={logoHorizontalLight}
-            alt="AUVP Escola"
-            className="hidden h-6 w-auto opacity-80 dark:block"
-          />
-          <span>
-            Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é
-            salvo no seu navegador.
-          </span>
-        </footer>
-      </div>
-    </main>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }

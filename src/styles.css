@@ -63,6 +63,8 @@
   --color-ring-offset-background: var(--background);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-footer: var(--footer);
+  --color-footer-foreground: var(--footer-foreground);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -83,7 +85,9 @@
 
 :root {
   /* === AUVP Capital — modo claro (verde) === */
-  --radius: 0.75rem;
+  /* Raio base 8px: cards do dashboard Capital usam cantos moderados (~12px
+     via rounded-xl), não os 16-20px do tema anterior */
+  --radius: 0.5rem;
   --background: hsl(0 0% 100%);
   --foreground: hsl(110 78% 9%);
   --card: hsl(0 0% 100%);
@@ -120,10 +124,15 @@
     hsl(155 93% 11%),
     hsl(140 70% 20%)
   );
-  --spotlight: hsl(155 93% 11% / 0.06);
-  --shadow-glow: 0 10px 40px -10px hsl(155 93% 11% / 0.3);
-  --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.04), 0 4px 12px hsl(0 0% 0% / 0.04);
-  --shadow-lift: 0 8px 24px hsl(0 0% 0% / 0.06);
+  --spotlight: hsl(155 93% 11% / 0.05);
+  /* Sombras quase planas: no dashboard Capital os cards se apoiam na borda
+     de 1px, com sombra apenas sugerida */
+  --shadow-glow: 0 4px 16px -4px hsl(155 93% 11% / 0.25);
+  --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.05);
+  --shadow-lift: 0 6px 16px hsl(0 0% 0% / 0.07);
+  /* Rodapé institucional (verde profundo fixo, como no dashboard Capital) */
+  --footer: hsl(155 93% 11%);
+  --footer-foreground: hsl(0 0% 95%);
   /* Data viz (Capital) */
   --chart-1: hsl(152 80% 30%); /* Verde */
   --chart-2: hsl(270 60% 55%); /* Violeta */
@@ -179,10 +188,12 @@
     hsl(145 25% 54%),
     hsl(145 30% 38%)
   );
-  --spotlight: hsl(145 20% 44% / 0.07);
-  --shadow-glow: 0 10px 40px -10px hsl(145 20% 44% / 0.4);
-  --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4), 0 4px 12px hsl(0 0% 0% / 0.4);
-  --shadow-lift: 0 8px 24px hsl(0 0% 0% / 0.5);
+  --spotlight: hsl(145 20% 44% / 0.06);
+  --shadow-glow: 0 4px 16px -4px hsl(145 20% 44% / 0.3);
+  --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4);
+  --shadow-lift: 0 6px 16px hsl(0 0% 0% / 0.45);
+  --footer: hsl(155 65% 8%);
+  --footer-foreground: hsl(0 0% 92%);
   --chart-1: hsl(135 50% 55%);
   --chart-2: hsl(270 65% 70%);
   --chart-3: hsl(38 90% 65%);

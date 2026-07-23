@@ -5,7 +5,6 @@ import {
   Gauge,
   Play,
   PlayCircle,
-  SlidersHorizontal,
   Timer,
 } from "lucide-react";
 import {
@@ -23,9 +22,6 @@ import type { Profile } from "@/lib/profile-store";
 import { getModuleIcon } from "@/lib/module-icons";
 import { useCountUp } from "@/hooks/use-count-up";
 import { ProgressRing } from "./ProgressRing";
-import { ThemeToggle } from "./ThemeToggle";
-import logoHorizontalDark from "@/assets/logos/auvp-escola-horizontal-preto.svg";
-import logoHorizontalLight from "@/assets/logos/auvp-escola-horizontal-branco.svg";
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -75,7 +71,6 @@ export function PlanHeader({
   activity,
   meta,
   setMeta,
-  onReset,
   profile,
   onEditProfile,
 }: {
@@ -83,7 +78,6 @@ export function PlanHeader({
   activity: ActivityMap;
   meta: Meta;
   setMeta: (m: Meta) => void;
-  onReset: () => void;
   profile: Profile;
   onEditProfile: () => void;
 }) {
@@ -158,49 +152,10 @@ export function PlanHeader({
   return (
     <>
       {/* ============ Hero ============ */}
-      <section className="bg-spotlight relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <img
-              src={logoHorizontalDark}
-              alt="AUVP Escola"
-              className="h-8 w-auto dark:hidden"
-            />
-            <img
-              src={logoHorizontalLight}
-              alt="AUVP Escola"
-              className="hidden h-8 w-auto dark:block"
-            />
-            <span className="hidden border-l border-border pl-3 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase sm:inline">
-              Plano de Estudos
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <button
-              type="button"
-              onClick={onEditProfile}
-              title="Personalizar experiência"
-              aria-label="Personalizar experiência"
-              className="rounded-full border border-border bg-card p-2.5 text-muted-foreground transition-all duration-[240ms] ease-out hover:border-primary/50 hover:text-foreground hover:shadow-sm active:scale-95"
-            >
-              <SlidersHorizontal className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (confirm("Resetar todo o progresso?")) onReset();
-              }}
-              className="btn-cta rounded-full border border-border px-4 py-2 text-muted-foreground transition-all duration-[240ms] ease-out hover:border-destructive hover:text-destructive active:scale-95"
-            >
-              Resetar
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8">
+      <section className="bg-spotlight relative overflow-hidden rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
+        <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8">
           <div className="min-w-0 w-full flex-1">
-            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="font-display text-3xl font-extrabold tracking-tight text-primary-emphasis sm:text-4xl">
               {profile.name
                 ? `${greeting()}, ${profile.name}`
                 : "Acompanhe sua jornada de investidor"}
@@ -361,8 +316,8 @@ export function PlanHeader({
 
       {/* ============ Config + Atividade semanal ============ */}
       <div className="mt-4 grid gap-4 lg:grid-cols-[3fr_2fr]">
-        <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
-          <h2 className="font-display text-lg font-bold text-foreground">
+        <section className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
+          <h2 className="font-display text-lg font-bold text-primary-emphasis">
             Configure seu plano
           </h2>
 
@@ -485,9 +440,9 @@ export function PlanHeader({
 
         {/* flex-col: o gráfico (flex-1) estica até ocupar toda a altura
             disponível do card, alinhado ao card de configuração ao lado */}
-        <section className="flex flex-col rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
+        <section className="flex flex-col rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
           <div className="flex items-center justify-between gap-2">
-            <h2 className="font-display text-lg font-bold text-foreground">
+            <h2 className="font-display text-lg font-bold text-primary-emphasis">
               Atividade semanal
             </h2>
             <span className="rounded-md border border-border bg-muted px-2 py-0.5 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
@@ -611,7 +566,7 @@ function StatCard({
         ? "bg-warning/15 text-warning-foreground border-warning/30 dark:text-warning"
         : "bg-muted text-muted-foreground border-border";
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] sm:p-5">
+    <div className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] sm:p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <div className="flex size-10 items-center justify-center rounded-xl bg-accent/10 text-primary-emphasis">
           {icon}

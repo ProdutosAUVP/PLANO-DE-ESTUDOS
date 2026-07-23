@@ -92,6 +92,15 @@ Regras que este app segue — mantenha-as em qualquer mudança visual:
 - **Tipografia**: `font-display` (Anek Latin) para títulos; Roboto
   (`--font-sans`) para corpo/labels; **Sora é exclusiva para botões** — use o
   utilitário `.btn-cta` (Sora Bold 13px uppercase tracking-wider).
+- **Cards (padrão do dashboard Capital)**: quase planos — borda 1px
+  (`border-border`), sombra sutil (`--shadow-card`, uma camada só) e cantos
+  moderados (`rounded-xl` com `--radius: 0.5rem` ≈ 12px). Não use
+  `rounded-2xl`/sombras profundas. Títulos de seção (h1/h2) em
+  `text-primary-emphasis` (verde), como no dashboard.
+- **Header/Footer do ecossistema**: `SiteHeader` (barra branca/preta de
+  largura total, sticky, borda inferior, logo à esquerda e ações à direita) e
+  `SiteFooter` (faixa verde profundo `--footer` com copyright), replicando o
+  dashboard AUVP Capital.
 - **Motion**: padrão `240ms ease/ease-out` (hovers, cards com
   `hover:-translate-y-0.5` + sombra `--shadow-lift`); `320ms` para destaques;
   barras de progresso `700ms`; anel de progresso `1.5s ease-out`. Entradas com

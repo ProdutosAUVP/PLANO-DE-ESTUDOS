@@ -77,8 +77,8 @@ export function StudyCalendar({
 
   if (!endDateISO) {
     return (
-      <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
-        <h2 className="font-display text-xl font-bold text-foreground">
+      <section className="rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
+        <h2 className="font-display text-xl font-bold text-primary-emphasis">
           Calendário de estudos
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -90,13 +90,13 @@ export function StudyCalendar({
   }
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
+    <section className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-bold tracking-[0.18em] text-primary-emphasis uppercase">
             Calendário
           </p>
-          <h2 className="font-display mt-1 text-xl font-bold text-foreground sm:text-2xl">
+          <h2 className="font-display mt-1 text-xl font-bold text-primary-emphasis sm:text-2xl">
             Suas aulas, dia a dia
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">

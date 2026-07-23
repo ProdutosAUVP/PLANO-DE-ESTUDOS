@@ -7,11 +7,12 @@
 /* Fontes oficiais AUVP (Anek Latin, Roboto, Sora) carregadas via <link> em index.html */
 
 /*
- * AUVP Design System — tema "Escola" (Dourado)
+ * AUVP Design System — tema "Capital" (Verde)
  * Fonte: https://produtosauvp.github.io/central/design-system
  *
  * Todos os valores de cor são HSL, copiados dos tokens oficiais do DS
- * (repositório central, src/index.css — bloco `.escola` e `.dark.escola`).
+ * (repositório central, src/index.css — tema Capital: `:root` claro e
+ * `.dark` escuro).
  *
  * O bloco @theme inline mapeia as variáveis para utilitários Tailwind
  * (ex.: --color-primary -> bg-primary, text-primary).
@@ -19,8 +20,10 @@
  * Regras do DS que este app segue:
  * - Anek Latin em títulos, Roboto no corpo, Sora EXCLUSIVA para botões.
  * - Motion padrão 240ms ease; 320ms para cards translúcidos/destaques.
- * - `*-emphasis`: variante da cor segura como TEXTO sobre --background
- *   (o dourado puro tem contraste insuficiente sobre branco).
+ * - `*-emphasis`: variante da cor segura como TEXTO sobre --background.
+ *   No Capital o verde escuro do --primary já passa AA como texto sobre
+ *   branco, então no claro emphasis == primary; no escuro emphasis é o
+ *   quase-branco do --primary escuro.
  */
 
 @theme inline {
@@ -79,113 +82,117 @@
 }
 
 :root {
-  /* === AUVP Escola — modo claro (dourado) === */
+  /* === AUVP Capital — modo claro (verde) === */
   --radius: 0.75rem;
   --background: hsl(0 0% 100%);
-  --foreground: hsl(220 15% 15%);
+  --foreground: hsl(110 78% 9%);
   --card: hsl(0 0% 100%);
-  --card-foreground: hsl(220 15% 15%);
+  --card-foreground: hsl(110 78% 9%);
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(220 15% 15%);
-  --primary: hsl(42 84% 63%); /* Dourado AUVP Escola */
-  --primary-foreground: hsl(220 15% 15%);
-  --primary-emphasis: hsl(40 90% 29%); /* dourado seguro como texto (≥4.5:1) */
-  --secondary: hsl(40 64% 54%);
-  --secondary-foreground: hsl(220 15% 15%);
-  --muted: hsl(40 30% 95%);
-  --muted-foreground: hsl(40 15% 40%);
-  --accent: hsl(42 83% 62%);
-  --accent-foreground: hsl(220 15% 15%);
-  --destructive: hsl(0 78% 52%);
+  --popover-foreground: hsl(110 78% 9%);
+  --primary: hsl(155 93% 11%); /* Verde profundo AUVP Capital */
+  --primary-foreground: hsl(0 0% 100%);
+  --primary-emphasis: hsl(155 93% 11%); /* verde escuro — AA como texto */
+  --secondary: hsl(160 55% 18%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(120 10% 95%);
+  --muted-foreground: hsl(110 10% 40%);
+  --accent: hsl(155 93% 11%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(0 84% 48%);
   --destructive-foreground: hsl(0 0% 100%);
-  /* Status semânticos Escola — success em âmbar, não verde */
-  --success: hsl(36 90% 32%);
+  /* Status semânticos Capital — success em verde */
+  --success: hsl(142 72% 29%);
   --success-foreground: hsl(0 0% 100%);
   --warning: hsl(35 95% 42%);
   --warning-foreground: hsl(220 15% 15%);
-  --info: hsl(205 85% 38%);
+  --info: hsl(210 90% 42%);
   --info-foreground: hsl(0 0% 100%);
-  --border: hsl(42 30% 87%);
-  --input: hsl(42 30% 87%);
-  --ring: hsl(42 84% 63%);
+  --border: hsl(120 10% 88%);
+  --input: hsl(120 10% 88%);
+  --ring: hsl(155 93% 11%);
   /* Brand */
-  --brand: hsl(42 84% 63%);
-  --brand-foreground: hsl(220 15% 15%);
-  --brand-hover: hsl(40 64% 54%);
+  --brand: hsl(155 93% 11%);
+  --brand-foreground: hsl(0 0% 100%);
+  --brand-hover: hsl(155 80% 15%);
   --gradient-primary: linear-gradient(
     135deg,
-    hsl(38 100% 79%),
-    hsl(42 100% 33%)
+    hsl(155 93% 11%),
+    hsl(140 70% 20%)
   );
-  --spotlight: hsl(42 84% 63% / 0.09);
-  --shadow-glow: 0 10px 40px -10px hsl(42 84% 63% / 0.35);
+  --spotlight: hsl(155 93% 11% / 0.06);
+  --shadow-glow: 0 10px 40px -10px hsl(155 93% 11% / 0.3);
   --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.04), 0 4px 12px hsl(0 0% 0% / 0.04);
   --shadow-lift: 0 8px 24px hsl(0 0% 0% / 0.06);
-  /* Data viz (Escola) */
-  --chart-1: hsl(42 84% 55%); /* Dourado */
-  --chart-2: hsl(15 75% 55%); /* Telha */
-  --chart-3: hsl(200 75% 45%); /* Azul ardósia */
-  --chart-4: hsl(350 70% 55%); /* Coral rosado */
-  --chart-5: hsl(160 55% 40%); /* Verde sálvia */
-  --sidebar: hsl(42 100% 33%);
+  /* Data viz (Capital) */
+  --chart-1: hsl(152 80% 30%); /* Verde */
+  --chart-2: hsl(270 60% 55%); /* Violeta */
+  --chart-3: hsl(38 92% 55%); /* Âmbar */
+  --chart-4: hsl(199 89% 48%); /* Azul */
+  --chart-5: hsl(340 75% 55%); /* Magenta */
+  --sidebar: hsl(110 78% 9%);
   --sidebar-foreground: hsl(0 0% 95%);
-  --sidebar-primary: hsl(42 84% 63%);
-  --sidebar-primary-foreground: hsl(220 15% 15%);
-  --sidebar-accent: hsl(42 70% 45%);
-  --sidebar-accent-foreground: hsl(0 0% 100%);
-  --sidebar-border: hsl(42 50% 28%);
-  --sidebar-ring: hsl(42 84% 63%);
+  --sidebar-primary: hsl(155 93% 11%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(155 50% 16%);
+  --sidebar-accent-foreground: hsl(0 0% 95%);
+  --sidebar-border: hsl(120 20% 15%);
+  --sidebar-ring: hsl(155 93% 11%);
 }
 
 .dark {
-  /* === AUVP Escola — modo escuro (fundo preto) === */
+  /* === AUVP Capital — modo escuro (fundo preto) === */
   --background: hsl(0 0% 0%);
-  --foreground: hsl(45 25% 96%);
+  --foreground: hsl(0 0% 98%);
   --card: hsl(0 0% 6%);
-  --card-foreground: hsl(45 25% 96%);
+  --card-foreground: hsl(0 0% 98%);
   --popover: hsl(0 0% 8%);
-  --popover-foreground: hsl(45 25% 96%);
-  --primary: hsl(42 90% 65%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(0 0% 98%);
   --primary-foreground: hsl(0 0% 8%);
-  --primary-emphasis: hsl(42 90% 65%);
+  --primary-emphasis: hsl(0 0% 98%);
   --secondary: hsl(0 0% 12%);
-  --secondary-foreground: hsl(45 25% 96%);
+  --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(0 0% 10%);
-  --muted-foreground: hsl(40 10% 70%);
-  --accent: hsl(42 90% 65%);
-  --accent-foreground: hsl(0 0% 8%);
+  --muted-foreground: hsl(0 0% 70%);
+  --accent: hsl(145 20% 44%); /* Verde sálvia — brand no escuro */
+  --accent-foreground: hsl(0 0% 5%);
   --destructive: hsl(0 80% 63%);
   --destructive-foreground: hsl(0 0% 5%);
-  --success: hsl(38 80% 55%);
-  --success-foreground: hsl(0 0% 8%);
+  --success: hsl(142 60% 48%);
+  --success-foreground: hsl(0 0% 5%);
   --warning: hsl(38 95% 60%);
   --warning-foreground: hsl(0 0% 5%);
   --info: hsl(210 90% 65%);
   --info-foreground: hsl(0 0% 5%);
-  --border: hsl(42 30% 20%);
-  --input: hsl(42 25% 17%);
-  --ring: hsl(42 90% 65%);
-  --brand: hsl(42 90% 65%);
-  --brand-foreground: hsl(0 0% 8%);
-  --brand-hover: hsl(42 95% 75%);
-  --gradient-primary: linear-gradient(135deg, hsl(42 84% 55%), hsl(38 80% 25%));
-  --spotlight: hsl(42 90% 65% / 0.07);
-  --shadow-glow: 0 10px 40px -10px hsl(42 90% 65% / 0.4);
+  --border: hsl(0 0% 16%);
+  --input: hsl(0 0% 14%);
+  --ring: hsl(145 20% 50%);
+  --brand: hsl(145 20% 44%);
+  --brand-foreground: hsl(0 0% 5%);
+  --brand-hover: hsl(145 20% 54%);
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(145 25% 54%),
+    hsl(145 30% 38%)
+  );
+  --spotlight: hsl(145 20% 44% / 0.07);
+  --shadow-glow: 0 10px 40px -10px hsl(145 20% 44% / 0.4);
   --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4), 0 4px 12px hsl(0 0% 0% / 0.4);
   --shadow-lift: 0 8px 24px hsl(0 0% 0% / 0.5);
-  --chart-1: hsl(42 84% 65%);
-  --chart-2: hsl(15 80% 65%);
-  --chart-3: hsl(200 80% 60%);
-  --chart-4: hsl(350 75% 65%);
-  --chart-5: hsl(160 55% 55%);
+  --chart-1: hsl(135 50% 55%);
+  --chart-2: hsl(270 65% 70%);
+  --chart-3: hsl(38 90% 65%);
+  --chart-4: hsl(199 85% 65%);
+  --chart-5: hsl(340 75% 70%);
   --sidebar: hsl(0 0% 3%);
-  --sidebar-foreground: hsl(45 25% 92%);
-  --sidebar-primary: hsl(42 90% 65%);
+  --sidebar-foreground: hsl(0 0% 92%);
+  --sidebar-primary: hsl(0 0% 98%);
   --sidebar-primary-foreground: hsl(0 0% 8%);
   --sidebar-accent: hsl(0 0% 10%);
-  --sidebar-accent-foreground: hsl(45 25% 96%);
-  --sidebar-border: hsl(40 10% 18%);
-  --sidebar-ring: hsl(42 90% 65%);
+  --sidebar-accent-foreground: hsl(0 0% 98%);
+  --sidebar-border: hsl(0 0% 16%);
+  --sidebar-ring: hsl(145 20% 50%);
 }
 
 @layer base {
@@ -209,7 +216,7 @@
     letter-spacing: -0.01em;
   }
 
-  /* A11y: anel de foco visível e consistente (dourado do tema) em todos os
+  /* A11y: anel de foco visível e consistente (verde do tema) em todos os
      controles, apenas para navegação por teclado */
   :focus-visible {
     outline: 2px solid var(--color-ring);

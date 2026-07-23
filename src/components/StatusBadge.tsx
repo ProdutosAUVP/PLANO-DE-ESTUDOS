@@ -3,7 +3,7 @@ import type { Status } from "@/lib/progress-store";
 
 /**
  * Tag de status tokenizada (DS: Tags & Badges) — usa os tokens semânticos
- * da Escola: feito = success (âmbar), em andamento = warning, não iniciado = muted.
+ * do Capital: feito = success (verde), em andamento = warning, não iniciado = muted.
  */
 const config: Record<
   Status,

@@ -7,7 +7,8 @@ import { ModuleCard } from "@/components/ModuleCard";
 import { PlanHeader } from "@/components/PlanHeader";
 import { StudyCalendar } from "@/components/StudyCalendar";
 import { Onboarding } from "@/components/Onboarding";
-import logoHorizontal from "@/assets/logos/auvp-escola-horizontal-amarelo.svg";
+import logoHorizontalDark from "@/assets/logos/auvp-escola-horizontal-preto.svg";
+import logoHorizontalLight from "@/assets/logos/auvp-escola-horizontal-branco.svg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -105,9 +106,14 @@ function Index() {
         </div>
         <footer className="mt-10 flex flex-col items-center gap-3 text-center text-xs text-muted-foreground">
           <img
-            src={logoHorizontal}
+            src={logoHorizontalDark}
             alt="AUVP Escola"
-            className="h-6 w-auto opacity-80"
+            className="h-6 w-auto opacity-80 dark:hidden"
+          />
+          <img
+            src={logoHorizontalLight}
+            alt="AUVP Escola"
+            className="hidden h-6 w-auto opacity-80 dark:block"
           />
           <span>
             Conteúdo baseado na grade pública da AUVP Escola. Seu progresso é

@@ -205,7 +205,7 @@ export function Onboarding({
 
         <section
           key={step}
-          className="animate-in fade-in slide-in-from-bottom-2 rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-card)] duration-300 sm:p-8"
+          className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)] duration-300 sm:p-8"
         >
           {step === 0 && (
             <>

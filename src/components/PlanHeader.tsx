@@ -152,7 +152,7 @@ export function PlanHeader({
   return (
     <>
       {/* ============ Hero ============ */}
-      <section className="bg-spotlight relative overflow-hidden rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
+      <section className="bg-spotlight relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6 lg:p-8">
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8">
           <div className="min-w-0 w-full flex-1">
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-primary-emphasis sm:text-4xl">
@@ -316,7 +316,7 @@ export function PlanHeader({
 
       {/* ============ Config + Atividade semanal ============ */}
       <div className="mt-4 grid gap-4 lg:grid-cols-[3fr_2fr]">
-        <section className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
+        <section className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
           <h2 className="font-display text-lg font-bold text-primary-emphasis">
             Configure seu plano
           </h2>
@@ -440,7 +440,7 @@ export function PlanHeader({
 
         {/* flex-col: o gráfico (flex-1) estica até ocupar toda a altura
             disponível do card, alinhado ao card de configuração ao lado */}
-        <section className="flex flex-col rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
+        <section className="flex flex-col rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <h2 className="font-display text-lg font-bold text-primary-emphasis">
               Atividade semanal
@@ -566,7 +566,7 @@ function StatCard({
         ? "bg-warning/15 text-warning-foreground border-warning/30 dark:text-warning"
         : "bg-muted text-muted-foreground border-border";
   return (
-    <div className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] sm:p-5">
+    <div className="rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-[240ms] ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] sm:p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <div className="flex size-10 items-center justify-center rounded-xl bg-accent/10 text-primary-emphasis">
           {icon}

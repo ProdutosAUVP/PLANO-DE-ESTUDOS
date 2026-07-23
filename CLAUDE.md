@@ -92,11 +92,13 @@ Regras que este app segue — mantenha-as em qualquer mudança visual:
 - **Tipografia**: `font-display` (Anek Latin) para títulos; Roboto
   (`--font-sans`) para corpo/labels; **Sora é exclusiva para botões** — use o
   utilitário `.btn-cta` (Sora Bold 13px uppercase tracking-wider).
-- **Cards (padrão do dashboard Capital)**: quase planos — borda 1px
-  (`border-border`), sombra sutil (`--shadow-card`, uma camada só) e cantos
-  moderados (`rounded-xl` com `--radius: 0.5rem` ≈ 12px). Não use
-  `rounded-2xl`/sombras profundas. Títulos de seção (h1/h2) em
-  `text-primary-emphasis` (verde), como no dashboard.
+- **Cards (padrão do dashboard Capital)**: página em cinza-claro
+  (`--background: hsl(120 8% 97%)`) com cards **brancos** (`--card`) quase
+  planos — borda 1px clara (`border-border`), sombra sutil (`--shadow-card`,
+  uma camada só) e cantos de container em `rounded-2xl` (≈16px com
+  `--radius: 0.5rem`); superfícies aninhadas usam `rounded-xl` (≈12px).
+  Títulos de seção (h1/h2) em `text-primary-emphasis` (verde), como no
+  dashboard. O header usa `bg-card` (branco/preto) para se destacar do fundo.
 - **Header/Footer do ecossistema**: `SiteHeader` (barra branca/preta de
   largura total, sticky, borda inferior, logo à esquerda e ações à direita) e
   `SiteFooter` (faixa verde profundo `--footer` com copyright), replicando o
